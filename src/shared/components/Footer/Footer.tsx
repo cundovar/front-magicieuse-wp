@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 import { getMenu } from '../../api/wordpress'
-import { buildMenuTree, type MenuItem } from '../../utils/menu'
+import { buildMenuTree } from '../../utils/menu'
 import MenuLink from '../MenuLink/MenuLink'
 import './Footer.scss'
 
 export default function Footer() {
-  const [tree, setTree] = useState<MenuItem[]>([])
-
-  useEffect(() => {
-    void getMenu('footer').then((items) => setTree(buildMenuTree(items)))
-  }, [])
+  const { data: menuItems = [] } = useSWR('menu:footer', () => getMenu('footer'))
+  const tree = buildMenuTree(menuItems)
 
   return (
     <footer className="site-footer">

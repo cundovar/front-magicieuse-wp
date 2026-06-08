@@ -9,7 +9,22 @@ const DEFAULT_RENDERABLE_BLOCKS = new Set([
   'woocommerce/product-collection',
   'woocommerce/handpicked-products',
   'woocommerce/products-by-category',
+  'magicieuse/hero',
+  'magicieuse/cta',
   'magicieuse/featured-products',
+  'magicieuse/book-carousel',
+  'magicieuse/image-text',
+  'magicieuse/faq',
+  'magicieuse/gallery',
+  'magicieuse/testimonials',
+  'magicieuse/category-grid',
+  'magicieuse/product-highlight',
+  'magicieuse/newsletter',
+  'magicieuse/accordion',
+  'magicieuse/tabs',
+  'magicieuse/slider',
+  'magicieuse/video-embed',
+  'magicieuse/steps',
 ])
 
 export function hasRenderableBlocks(

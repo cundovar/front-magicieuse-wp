@@ -52,7 +52,32 @@
   --collection-header-border: none;
   --collection-header-radius: 0;
   --collection-header-padding: 0;
+  --collection-page-padding: 32px 0 64px;
+  --collection-back-margin-bottom: 32px;
+  --collection-back-color: var(--color-text);
+  --collection-back-hover-color: var(--color-primary);
+  --collection-back-font-size: 14px;
+  --collection-header-grid: minmax(180px, 280px) 1fr;
+  --collection-header-grid-mobile: 1fr;
+  --collection-header-gap: 32px;
+  --collection-header-margin-bottom: 40px;
+  --collection-intro-max-width: 680px;
+  --collection-title-font-size: var(--home-title-font-size);
+  --collection-title-line-height: var(--home-title-line-height);
+  --collection-description-color: var(--color-text);
+  --collection-description-font-size: 16px;
+  --collection-description-line-height: 1.7;
+  --collection-count-color: var(--color-text);
+  --collection-count-background: transparent;
+  --collection-count-border: none;
+  --collection-count-radius: 0;
+  --collection-count-padding: 0;
+  --collection-count-font-size: 14px;
+  --collection-count-font-weight: 700;
   --collection-image-radius: 0;
+  --collection-image-aspect-ratio: 4 / 3;
+  --collection-image-object-fit: contain;
+  --collection-image-max-width-mobile: 320px;
 
   --cart-item-image-radius: 6px;
   --cart-item-image-background: var(--color-surface);
@@ -76,6 +101,94 @@
   --home-title-line-height: 1.05;
   --home-content-max-width: 820px;
   --home-content-font-size: 17px;
+
+  --wp-block-gap: 24px;
+  --wp-block-color: var(--color-text);
+  --wp-block-title-color: var(--color-heading);
+  --wp-block-title-font-size: 24px;
+  --wp-block-title-line-height: 1.2;
+  --wp-block-text-max-width: 68ch;
+  --wp-block-text-line-height: 1.7;
+  --wp-block-media-radius: var(--product-page-image-radius);
+  --wp-block-media-background: var(--color-surface);
+  --wp-block-media-shadow: var(--theme-shadow, none);
+
+  --wp-block-hero-padding: 32px 0;
+  --wp-block-hero-gap: 24px;
+  --wp-block-hero-grid: minmax(0, 1fr);
+  --wp-block-hero-grid-desktop: minmax(0, 1fr) minmax(260px, 420px);
+  --wp-block-hero-eyebrow-color: var(--color-primary);
+  --wp-block-hero-eyebrow-font-size: 14px;
+  --wp-block-hero-title-max-width: 760px;
+  --wp-block-hero-title-font-size: clamp(36px, 6vw, 56px);
+  --wp-block-hero-title-line-height: 1.05;
+
+  --wp-block-cta-display: flex;
+  --wp-block-cta-gap: 20px;
+  --wp-block-cta-padding: 24px;
+  --wp-block-cta-border: 1px solid var(--color-border);
+  --wp-block-cta-radius: 8px;
+  --wp-block-cta-background: var(--color-surface);
+  --wp-block-cta-shadow: none;
+
+  --wp-block-book-carousel-padding: 24px;
+  --wp-block-book-carousel-border: 1px solid var(--color-border);
+  --wp-block-book-carousel-radius: 8px;
+  --wp-block-book-carousel-background: var(--color-surface);
+  --wp-block-book-carousel-shadow: none;
+  --wp-block-book-carousel-gap: 16px;
+  --wp-block-book-carousel-card-width: clamp(170px, 22vw, 240px);
+  --wp-block-book-carousel-control-size: 40px;
+  --wp-block-book-carousel-control-background: var(--color-background);
+  --wp-block-book-carousel-control-color: var(--color-heading);
+  --wp-block-book-carousel-control-border: 1px solid var(--color-border);
+  --wp-block-book-carousel-control-radius: 999px;
+
+  --wp-block-image-text-gap: 24px;
+  --wp-block-image-text-grid: minmax(0, 1fr);
+  --wp-block-image-text-grid-desktop: minmax(0, 1fr) minmax(260px, 420px);
+
+  --wp-block-card-padding: 20px;
+  --wp-block-card-border: 1px solid var(--color-border);
+  --wp-block-card-radius: 8px;
+  --wp-block-card-background: var(--color-surface);
+  --wp-block-card-shadow: none;
+
+  --wp-block-gallery-grid: repeat(auto-fit, minmax(180px, 1fr));
+  --wp-block-gallery-gap: 16px;
+  --wp-block-gallery-image-radius: var(--wp-block-media-radius);
+
+  --wp-block-testimonials-grid: repeat(auto-fit, minmax(220px, 1fr));
+  --wp-block-category-grid: repeat(auto-fit, minmax(180px, 1fr));
+
+  --wp-block-product-highlight-grid: minmax(0, 1fr);
+  --wp-block-product-highlight-grid-desktop: minmax(0, 1fr) minmax(260px, 360px);
+  --wp-block-product-highlight-gap: 24px;
+  --wp-block-product-highlight-padding: 24px;
+  --wp-block-product-highlight-background: var(--color-surface);
+  --wp-block-product-highlight-border: 1px solid var(--color-border);
+  --wp-block-product-highlight-radius: 8px;
+
+  --wp-block-newsletter-padding: 24px;
+  --wp-block-newsletter-background: var(--color-surface);
+  --wp-block-newsletter-border: 1px solid var(--color-border);
+  --wp-block-newsletter-radius: 8px;
+  --wp-block-newsletter-gap: 20px;
+
+  --wp-block-tabs-active-background: var(--color-primary);
+  --wp-block-tabs-active-color: #fff;
+  --wp-block-tabs-button-background: var(--color-surface);
+  --wp-block-tabs-panel-padding: 20px;
+
+  --wp-block-slider-padding: 24px;
+  --wp-block-slider-background: var(--color-surface);
+  --wp-block-slider-border: 1px solid var(--color-border);
+  --wp-block-slider-radius: 8px;
+  --wp-block-slider-gap: 24px;
+
+  --wp-block-steps-grid: repeat(auto-fit, minmax(220px, 1fr));
+  --wp-block-step-number-background: var(--color-primary);
+  --wp-block-step-number-color: #fff;
 
   --accent: var(--color-primary);
   --text: var(--color-text);

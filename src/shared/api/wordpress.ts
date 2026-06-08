@@ -92,6 +92,24 @@ export type WpBlockButtonData = {
   className: string | null
 }
 
+export type WpBlockCategoryData = {
+  id: number
+  name: string
+  slug: string
+  description: string
+  count: number
+  image: WpBlockImageData | null
+}
+
+export type WpBlockSlide = {
+  title?: string
+  text?: string
+  imageId?: number
+  image?: WpBlockImageData | null
+  buttonLabel?: string
+  buttonUrl?: string
+}
+
 export type WpBlock = {
   blockName: string | null
   attrs: Record<string, unknown>
@@ -101,9 +119,13 @@ export type WpBlock = {
   renderedHTML: string
   data: {
     image?: WpBlockImageData | null
+    images?: WpBlockImageData[]
     button?: WpBlockButtonData | null
     buttons?: WpBlockButtonData[]
     products?: WooProduct[]
+    product?: WooProduct | null
+    categories?: WpBlockCategoryData[]
+    slides?: WpBlockSlide[] | null
   } | null
 }
 
@@ -156,6 +178,20 @@ export function getContent(slug: string) {
   )
 }
 
+export type WpFrontData = {
+  theme: string
+  page: WpContent
+  blocks: WpBlocksContent
+}
+
+export function getFront() {
+  return fetchJson<WpFrontData>('/magicieuse/v1/front')
+}
+
+export function getTheme() {
+  return fetchJson<{ theme: string }>('/magicieuse/v1/theme')
+}
+
 export function getFrontPage() {
   return fetchJson<WpContent>('/magicieuse/v1/front-page')
 }
@@ -174,19 +210,11 @@ export function getMedia() {
   return fetchJson<WordPressMedia[]>('/wp/v2/media')
 }
 
-// Cache par emplacement — les erreurs ne sont pas cachees pour permettre une nouvelle tentative
-const _menuCache = new Map<string, WpMenuItem[]>()
-
 export async function getMenu(location: string): Promise<WpMenuItem[]> {
-  const cached = _menuCache.get(location)
-  if (cached !== undefined) return cached
-
   try {
-    const items = await fetchJson<WpMenuItem[]>(
+    return await fetchJson<WpMenuItem[]>(
       `/magicieuse/v1/menu/${encodeURIComponent(location)}`,
     )
-    _menuCache.set(location, items)
-    return items
   } catch (err) {
     if (import.meta.env.DEV) {
       console.warn(`[menu] Impossible de charger l'emplacement "${location}" :`, err)

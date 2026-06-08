@@ -1,0 +1,165 @@
+[data-theme="magicieuse"] {
+  --color-primary:    oklch(54.1% 0.247 293.0);
+  --color-text:       oklch(68.5% 0.095 304.4);
+  --color-heading:    oklch(96.3% 0.021 301.1);
+  --color-background: oklch(14.4% 0.033 310.0);
+  --color-surface:    oklch(19.8% 0.064 298.6);
+  --color-border:     color-mix(in oklch, oklch(54.1% 0.247 293.0) 25%, transparent);
+
+  --color-secondary: oklch(72.2% 0.177 305.5);
+  --color-sun:       oklch(74.8% 0.207 322.2);
+  --color-leaf:      oklch(62% 0.12 160);
+  --color-sky:       oklch(66% 0.14 260);
+  --color-danger:    oklch(58% 0.18 28);
+  --color-success:   oklch(58% 0.14 150);
+
+  --font-display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --font-body:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+  --theme-shadow: 0 0 44px oklch(54.1% 0.247 293.0 / 0.24);
+  --theme-radius: 0;
+
+  --button-radius:      0;
+  --button-shadow:      0 0 28px oklch(54.1% 0.247 293.0 / 0.24);
+  --button-font-weight: 600;
+
+  --header-background:       color-mix(in oklch, oklch(14.4% 0.033 310.0), transparent 12%);
+  --header-backdrop-filter:  blur(18px);
+  --header-height:           76px;
+  --header-logo-font-family: var(--font-display);
+  --header-logo-font-weight: 500;
+  --header-link-radius:      0;
+  --header-link-background:  transparent;
+  --header-link-border:      none;
+  --header-link-padding:     0;
+  --header-submenu-radius:   0;
+  --header-submenu-shadow:   0 8px 40px oklch(5% 0.04 310 / 0.6);
+
+  --product-list-gap:              18px;
+  --product-card-background:       oklch(23.2% 0.087 297.3);
+  --product-card-radius:           0;
+  --product-card-shadow:           none;
+  --product-card-hover-shadow:     0 0 40px oklch(54.1% 0.247 293.0 / 0.24);
+  --product-card-image-background: oklch(19.8% 0.064 298.6);
+  --product-card-image-radius:     0;
+  --product-card-padding:          18px;
+
+  --product-page-gap:              clamp(28px, 5vw, 64px);
+  --product-page-image-radius:     0;
+  --product-page-image-background: oklch(19.8% 0.064 298.6);
+  --product-category-radius:       0;
+  --product-category-background:   color-mix(in oklch, oklch(54.1% 0.247 293.0) 15%, transparent);
+  --product-category-border:       1px solid var(--color-border);
+  --product-category-padding:      4px 10px;
+
+  --collection-header-background: oklch(23.2% 0.087 297.3);
+  --collection-header-border:     1px solid var(--color-border);
+  --collection-header-radius:     0;
+  --collection-header-padding:    clamp(22px, 3vw, 38px);
+  --collection-page-padding:      clamp(54px, 8vw, 112px) 0;
+  --collection-back-color:        var(--color-text);
+  --collection-back-hover-color:  var(--color-heading);
+  --collection-header-grid:       minmax(180px, 320px) minmax(0, 1fr);
+  --collection-header-gap:        clamp(24px, 5vw, 56px);
+  --collection-title-font-size:   clamp(3rem, 9vw, 7.4rem);
+  --collection-title-line-height: 0.9;
+  --collection-description-color: var(--color-text);
+  --collection-description-font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+  --collection-count-background:  color-mix(in oklch, var(--color-primary) 15%, transparent);
+  --collection-count-border:      1px solid var(--color-border);
+  --collection-count-radius:      0;
+  --collection-count-padding:     5px 10px;
+  --collection-image-radius:      0;
+  --collection-image-aspect-ratio: 1;
+  --collection-image-object-fit:  contain;
+
+  --cart-item-image-radius:    0;
+  --cart-item-image-background: oklch(19.8% 0.064 298.6);
+  --cart-quantity-radius:      0;
+  --cart-summary-background:   oklch(23.2% 0.087 297.3);
+  --cart-summary-border:       var(--color-border);
+  --cart-summary-radius:       0;
+  --cart-summary-shadow:       0 0 40px oklch(54.1% 0.247 293.0 / 0.16);
+
+  --footer-background: oklch(8% 0.04 310.0);
+  --footer-border:     var(--color-border);
+
+  --home-page-padding:       clamp(72px, 9vw, 136px) 0;
+  --home-article-background: oklch(23.2% 0.087 297.3);
+  --home-article-border:     1px solid var(--color-border);
+  --home-article-radius:     0;
+  --home-article-padding:    clamp(22px, 5vw, 56px);
+  --home-article-shadow:     none;
+  --home-title-max-width:    12ch;
+  --home-title-font-size:    clamp(3rem, 9vw, 7.4rem);
+  --home-title-line-height:  0.9;
+  --home-content-max-width:  62ch;
+  --home-content-font-size:  clamp(1.05rem, 1.35vw, 1.25rem);
+
+  --wp-block-gap:             clamp(28px, 6vw, 72px);
+  --wp-block-title-font-size: clamp(1.55rem, 3vw, 2.3rem);
+  --wp-block-media-radius:    0;
+  --wp-block-media-shadow:    var(--theme-shadow);
+
+  --wp-block-hero-padding:           clamp(28px, 6vw, 72px);
+  --wp-block-hero-gap:               clamp(24px, 5vw, 56px);
+  --wp-block-hero-grid-desktop:      minmax(0, 1fr) minmax(300px, 480px);
+  --wp-block-hero-title-font-size:   clamp(3rem, 9vw, 7.4rem);
+  --wp-block-hero-title-line-height: 0.9;
+
+  --wp-block-cta-padding:    clamp(20px, 4vw, 40px);
+  --wp-block-cta-border:     1px solid var(--color-border);
+  --wp-block-cta-radius:     0;
+  --wp-block-cta-background: oklch(23.2% 0.087 297.3);
+  --wp-block-cta-shadow:     var(--theme-shadow);
+
+  --wp-block-book-carousel-padding:            clamp(20px, 4vw, 40px);
+  --wp-block-book-carousel-border:             1px solid var(--color-border);
+  --wp-block-book-carousel-radius:             0;
+  --wp-block-book-carousel-background:         oklch(19.8% 0.064 298.6);
+  --wp-block-book-carousel-shadow:             none;
+  --wp-block-book-carousel-gap:                18px;
+  --wp-block-book-carousel-card-width:         clamp(180px, 23vw, 260px);
+  --wp-block-book-carousel-control-background: oklch(23.2% 0.087 297.3);
+  --wp-block-book-carousel-control-border:     1px solid var(--color-border);
+
+  --wp-block-image-text-gap:          clamp(24px, 5vw, 56px);
+  --wp-block-image-text-grid-desktop: minmax(300px, 480px) minmax(0, 1fr);
+
+  --wp-block-card-padding:    22px;
+  --wp-block-card-border:     1px solid var(--color-border);
+  --wp-block-card-radius:     0;
+  --wp-block-card-background: oklch(23.2% 0.087 297.3);
+  --wp-block-card-shadow:     var(--theme-shadow);
+
+  --wp-block-gallery-gap:       18px;
+  --wp-block-gallery-grid:      repeat(auto-fit, minmax(190px, 1fr));
+  --wp-block-testimonials-grid: repeat(auto-fit, minmax(240px, 1fr));
+  --wp-block-category-grid:     repeat(auto-fit, minmax(200px, 1fr));
+
+  --wp-block-product-highlight-gap:        clamp(24px, 5vw, 56px);
+  --wp-block-product-highlight-padding:    clamp(20px, 4vw, 44px);
+  --wp-block-product-highlight-background: oklch(23.2% 0.087 297.3);
+  --wp-block-product-highlight-border:     1px solid var(--color-border);
+  --wp-block-product-highlight-radius:     0;
+
+  --wp-block-newsletter-padding:    clamp(20px, 4vw, 40px);
+  --wp-block-newsletter-background: oklch(19.8% 0.064 298.6);
+  --wp-block-newsletter-border:     1px solid var(--color-border);
+  --wp-block-newsletter-radius:     0;
+
+  body {
+    background:
+      radial-gradient(circle at 10% 20%, oklch(74.8% 0.207 322.2 / 0.06), transparent 26rem),
+      radial-gradient(circle at 85% 12%, oklch(54.1% 0.247 293.0 / 0.10), transparent 30rem),
+      var(--color-background);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 0.9;
+  }
+}

@@ -19,7 +19,7 @@ const WP_SITE_URL =
  */
 export function getWooUrl(path: string): string {
   const inputPath = path.startsWith('/') ? path : `/${path}`
-  const p = inputPath === '/mon-compte/' ? '/my-account/' : inputPath
+  const p = inputPath
 
   return WP_SITE_URL ? `${WP_SITE_URL}${p}` : p
 }

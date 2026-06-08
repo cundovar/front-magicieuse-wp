@@ -57,7 +57,17 @@
   --collection-header-border: 1px solid color-mix(in oklch, var(--color-border), var(--color-sun) 30%);
   --collection-header-radius: 42px 28px 58px 26px;
   --collection-header-padding: clamp(20px, 4vw, 44px);
+  --collection-page-padding: clamp(28px, 6vw, 72px) 0;
+  --collection-header-grid: minmax(180px, 320px) minmax(0, 1fr);
+  --collection-header-gap: clamp(22px, 5vw, 52px);
+  --collection-title-font-size: clamp(2.4rem, 7vw, 5.8rem);
+  --collection-title-line-height: 0.96;
+  --collection-description-font-size: clamp(1rem, 1.7vw, 1.18rem);
+  --collection-count-background: color-mix(in oklch, var(--color-secondary), white 78%);
+  --collection-count-radius: 999px;
+  --collection-count-padding: 6px 12px;
   --collection-image-radius: 22px;
+  --collection-image-object-fit: contain;
 
   --cart-item-image-radius: 18px;
   --cart-quantity-radius: 999px;
@@ -82,6 +92,57 @@
   --home-title-line-height: 0.96;
   --home-content-max-width: 62ch;
   --home-content-font-size: clamp(1.05rem, 2vw, 1.34rem);
+
+  --wp-block-gap: clamp(28px, 6vw, 72px);
+  --wp-block-title-font-size: clamp(1.55rem, 3vw, 2.3rem);
+  --wp-block-media-radius: 28px;
+  --wp-block-media-shadow: var(--theme-shadow);
+
+  --wp-block-hero-padding: clamp(28px, 6vw, 72px);
+  --wp-block-hero-gap: clamp(24px, 5vw, 56px);
+  --wp-block-hero-grid-desktop: minmax(0, 1fr) minmax(300px, 480px);
+  --wp-block-hero-title-font-size: clamp(3rem, 9vw, 7.4rem);
+  --wp-block-hero-title-line-height: 0.96;
+
+  --wp-block-cta-padding: clamp(20px, 4vw, 40px);
+  --wp-block-cta-border: 1px solid color-mix(in oklch, var(--color-border), var(--color-sun) 30%);
+  --wp-block-cta-radius: 34px 22px 42px 22px;
+  --wp-block-cta-background: color-mix(in oklch, var(--color-sun), white 62%);
+  --wp-block-cta-shadow: var(--theme-shadow);
+
+  --wp-block-book-carousel-padding: clamp(20px, 4vw, 40px);
+  --wp-block-book-carousel-border: 1px solid color-mix(in oklch, var(--color-border), var(--color-sky) 30%);
+  --wp-block-book-carousel-radius: var(--theme-radius);
+  --wp-block-book-carousel-background: color-mix(in oklch, var(--color-sky), white 76%);
+  --wp-block-book-carousel-shadow: var(--theme-shadow);
+  --wp-block-book-carousel-gap: 18px;
+  --wp-block-book-carousel-card-width: clamp(180px, 23vw, 260px);
+  --wp-block-book-carousel-control-background: var(--color-surface);
+  --wp-block-book-carousel-control-border: 1px solid color-mix(in oklch, var(--color-border), var(--color-sky) 30%);
+
+  --wp-block-image-text-gap: clamp(24px, 5vw, 56px);
+  --wp-block-image-text-grid-desktop: minmax(300px, 480px) minmax(0, 1fr);
+
+  --wp-block-card-padding: 22px;
+  --wp-block-card-radius: 22px;
+  --wp-block-card-background: var(--color-surface);
+  --wp-block-card-shadow: var(--theme-shadow);
+
+  --wp-block-gallery-gap: 18px;
+  --wp-block-gallery-grid: repeat(auto-fit, minmax(190px, 1fr));
+  --wp-block-testimonials-grid: repeat(auto-fit, minmax(240px, 1fr));
+  --wp-block-category-grid: repeat(auto-fit, minmax(200px, 1fr));
+
+  --wp-block-product-highlight-gap: clamp(24px, 5vw, 56px);
+  --wp-block-product-highlight-padding: clamp(20px, 4vw, 44px);
+  --wp-block-product-highlight-background: color-mix(in oklch, var(--color-leaf), white 78%);
+  --wp-block-product-highlight-border: 1px solid color-mix(in oklch, var(--color-border), var(--color-leaf) 30%);
+  --wp-block-product-highlight-radius: 34px 22px 42px 22px;
+
+  --wp-block-newsletter-padding: clamp(20px, 4vw, 40px);
+  --wp-block-newsletter-background: color-mix(in oklch, var(--color-secondary), white 78%);
+  --wp-block-newsletter-border: 1px solid color-mix(in oklch, var(--color-border), var(--color-secondary) 30%);
+  --wp-block-newsletter-radius: var(--theme-radius);
 }
 
 body {

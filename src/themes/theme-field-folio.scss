@@ -1,0 +1,163 @@
+[data-theme="field-folio"] {
+  --color-primary:    oklch(59.8% 0.123 43.2);
+  --color-text:       oklch(48% 0.018 72);
+  --color-heading:    oklch(22.3% 0 0);
+  --color-background: oklch(97.9% 0.014 84.6);
+  --color-surface:    oklch(99.2% 0.006 84.6);
+  --color-border:     oklch(88.5% 0.018 84.6);
+
+  --color-secondary: oklch(45.7% 0.052 133.1);
+  --color-sun:       oklch(78% 0.102 82.5);
+  --color-leaf:      oklch(62% 0.10 145);
+  --color-sky:       oklch(68% 0.08 220);
+  --color-danger:    oklch(55% 0.16 30);
+  --color-success:   oklch(49% 0.09 145);
+
+  --font-display: 'Crimson Pro', 'Iowan Old Style', 'Book Antiqua', 'Charter', Georgia, serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --theme-shadow: 0 18px 50px oklch(22.3% 0 0 / 0.10);
+  --theme-radius: 0;
+
+  --button-radius:      999px;
+  --button-shadow:      none;
+  --button-font-weight: 600;
+
+  --header-background:       color-mix(in oklch, var(--color-background), transparent 8%);
+  --header-backdrop-filter:  blur(16px);
+  --header-height:           72px;
+  --header-logo-font-family: var(--font-display);
+  --header-logo-font-weight: 400;
+  --header-link-radius:      0;
+  --header-link-background:  transparent;
+  --header-link-border:      none;
+  --header-link-padding:     0;
+  --header-submenu-radius:   4px;
+  --header-submenu-shadow:   0 8px 24px oklch(22.3% 0 0 / 0.10);
+
+  --product-list-gap:              14px;
+  --product-card-background:       var(--color-surface);
+  --product-card-radius:           0;
+  --product-card-shadow:           none;
+  --product-card-hover-shadow:     0 4px 20px oklch(22.3% 0 0 / 0.10);
+  --product-card-image-background: color-mix(in oklch, var(--color-sun), white 65%);
+  --product-card-image-radius:     0;
+  --product-card-padding:          14px;
+
+  --product-page-gap:              clamp(24px, 5vw, 64px);
+  --product-page-image-radius:     0;
+  --product-page-image-background: color-mix(in oklch, var(--color-primary), white 80%);
+  --product-category-radius:       999px;
+  --product-category-background:   color-mix(in oklch, var(--color-secondary) 15%, transparent);
+  --product-category-border:       1px solid var(--color-border);
+  --product-category-padding:      4px 12px;
+
+  --collection-header-background: color-mix(in oklch, var(--color-sun), white 82%);
+  --collection-header-border:     1px solid var(--color-border);
+  --collection-header-radius:     0;
+  --collection-header-padding:    clamp(20px, 4vw, 44px);
+  --collection-page-padding:      clamp(44px, 7vw, 96px) 0;
+  --collection-back-color:        var(--color-secondary);
+  --collection-back-hover-color:  var(--color-heading);
+  --collection-header-grid:       minmax(180px, 340px) minmax(0, 1fr);
+  --collection-header-gap:        clamp(24px, 5vw, 56px);
+  --collection-title-font-size:   clamp(3.2rem, 8vw, 7rem);
+  --collection-title-line-height: 0.86;
+  --collection-description-font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  --collection-count-background:  color-mix(in oklch, var(--color-secondary) 14%, transparent);
+  --collection-count-border:      1px solid var(--color-border);
+  --collection-count-radius:      999px;
+  --collection-count-padding:     5px 12px;
+  --collection-image-radius:      0;
+  --collection-image-aspect-ratio: 1;
+  --collection-image-object-fit:  contain;
+
+  --cart-item-image-radius:    0;
+  --cart-item-image-background: color-mix(in oklch, var(--color-secondary), white 85%);
+  --cart-quantity-radius:      999px;
+  --cart-summary-background:   var(--color-background);
+  --cart-summary-border:       var(--color-border);
+  --cart-summary-radius:       0;
+  --cart-summary-shadow:       none;
+
+  --footer-background: color-mix(in oklch, var(--color-secondary), white 92%);
+  --footer-border:     var(--color-border);
+
+  --home-page-padding:       clamp(48px, 8vw, 104px) 0;
+  --home-article-background: var(--color-surface);
+  --home-article-border:     1px solid var(--color-border);
+  --home-article-radius:     0;
+  --home-article-padding:    clamp(20px, 5vw, 56px);
+  --home-article-shadow:     var(--theme-shadow);
+  --home-title-max-width:    11ch;
+  --home-title-font-size:    clamp(3.5rem, 10vw, 8rem);
+  --home-title-line-height:  0.85;
+  --home-content-max-width:  58ch;
+  --home-content-font-size:  clamp(1.1rem, 1.5vw, 1.35rem);
+
+  --wp-block-gap:             clamp(24px, 6vw, 64px);
+  --wp-block-title-font-size: clamp(1.5rem, 3vw, 2.2rem);
+  --wp-block-media-radius:    0;
+  --wp-block-media-shadow:    var(--theme-shadow);
+
+  --wp-block-hero-padding:           clamp(28px, 7vw, 86px);
+  --wp-block-hero-gap:               clamp(22px, 5vw, 56px);
+  --wp-block-hero-grid-desktop:      minmax(0, 1.08fr) minmax(360px, 0.72fr);
+  --wp-block-hero-title-font-size:   clamp(3.5rem, 10vw, 8rem);
+  --wp-block-hero-title-line-height: 0.85;
+
+  --wp-block-cta-padding:    clamp(18px, 4vw, 40px);
+  --wp-block-cta-border:     1px solid var(--color-heading);
+  --wp-block-cta-radius:     0;
+  --wp-block-cta-background: var(--color-background);
+  --wp-block-cta-shadow:     none;
+
+  --wp-block-book-carousel-padding:            clamp(20px, 4vw, 40px);
+  --wp-block-book-carousel-border:             1px solid var(--color-border);
+  --wp-block-book-carousel-radius:             0;
+  --wp-block-book-carousel-background:         var(--color-surface);
+  --wp-block-book-carousel-shadow:             none;
+  --wp-block-book-carousel-gap:                14px;
+  --wp-block-book-carousel-card-width:         clamp(170px, 22vw, 250px);
+  --wp-block-book-carousel-control-background: var(--color-surface);
+  --wp-block-book-carousel-control-border:     1px solid var(--color-border);
+
+  --wp-block-image-text-gap:          clamp(24px, 5vw, 56px);
+  --wp-block-image-text-grid-desktop: minmax(0, 1fr) minmax(360px, 0.72fr);
+
+  --wp-block-card-padding:    20px;
+  --wp-block-card-border:     1px solid var(--color-border);
+  --wp-block-card-radius:     0;
+  --wp-block-card-background: var(--color-surface);
+  --wp-block-card-shadow:     var(--theme-shadow);
+
+  --wp-block-gallery-gap:       14px;
+  --wp-block-gallery-grid:      repeat(auto-fit, minmax(190px, 1fr));
+  --wp-block-testimonials-grid: repeat(auto-fit, minmax(240px, 1fr));
+  --wp-block-category-grid:     repeat(auto-fit, minmax(200px, 1fr));
+
+  --wp-block-product-highlight-gap:        clamp(24px, 5vw, 56px);
+  --wp-block-product-highlight-padding:    clamp(18px, 4vw, 44px);
+  --wp-block-product-highlight-background: color-mix(in oklch, var(--color-secondary), white 90%);
+  --wp-block-product-highlight-border:     1px solid var(--color-border);
+  --wp-block-product-highlight-radius:     0;
+
+  --wp-block-newsletter-padding:    clamp(20px, 4vw, 40px);
+  --wp-block-newsletter-background: color-mix(in oklch, var(--color-sun), white 82%);
+  --wp-block-newsletter-border:     1px solid var(--color-border);
+  --wp-block-newsletter-radius:     0;
+
+  body {
+    background:
+      linear-gradient(90deg, color-mix(in oklch, var(--color-border), transparent 55%) 1px, transparent 1px) 0 0 / 28px 28px,
+      var(--color-background);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 0.88;
+  }
+}

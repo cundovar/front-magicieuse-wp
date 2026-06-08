@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import useSWR from 'swr'
 import { getMenu } from '../../api/wordpress'
 import { useCart } from '../../../features/cart/useCart'
 import { buildMenuTree, type MenuItem } from '../../utils/menu'
@@ -62,13 +63,8 @@ function Dropdown({ item }: { item: MenuItem }) {
 
 export default function Header() {
   const { itemCount } = useCart()
-  const [tree, setTree] = useState<MenuItem[]>([])
-
-  useEffect(() => {
-    void getMenu('primary').then((items) =>
-      setTree(buildMenuTree(items.filter((item) => !CART_PATHS.has(item.path)))),
-    )
-  }, [])
+  const { data: menuItems = [] } = useSWR('menu:primary', () => getMenu('primary'))
+  const tree = buildMenuTree(menuItems.filter((item) => !CART_PATHS.has(item.path)))
 
   return (
     <header className="site-header">
