@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-surface: var(--color-surface);
+  --color-border: var(--color-border);
+  --color-heading: var(--color-heading);
+}

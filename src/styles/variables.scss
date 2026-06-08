@@ -1,0 +1,88 @@
+:root {
+  --color-primary: #7b2cbf;
+  --color-text: #625c69;
+  --color-heading: #151018;
+  --color-background: #ffffff;
+  --color-surface: #faf8fb;
+  --color-border: #e7e2ea;
+
+  --font-body: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-display: var(--font-body);
+  --font-mono: ui-monospace, Consolas, monospace;
+
+  --button-radius: 6px;
+  --button-shadow: none;
+  --button-font-weight: 600;
+
+  --container-width: 1120px;
+  --container-gutter: 32px;
+
+  --header-background: var(--color-background);
+  --header-border: var(--color-border);
+  --header-height: 64px;
+  --header-backdrop-filter: none;
+  --header-logo-color: var(--color-primary);
+  --header-logo-font-family: var(--font-body);
+  --header-logo-font-weight: 700;
+  --header-link-radius: 0;
+  --header-link-background: transparent;
+  --header-link-border: none;
+  --header-link-padding: 0;
+  --header-submenu-radius: 8px;
+  --header-submenu-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  --product-card-background: var(--color-background);
+  --product-card-border: var(--color-border);
+  --product-card-radius: 8px;
+  --product-card-shadow: none;
+  --product-card-hover-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --product-card-image-background: var(--color-surface);
+  --product-card-image-radius: 0;
+  --product-card-padding: 16px;
+
+  --product-page-image-radius: 8px;
+  --product-page-image-background: var(--color-surface);
+  --product-page-gap: 64px;
+  --product-category-radius: 0;
+  --product-category-background: transparent;
+  --product-category-border: none;
+  --product-category-padding: 0;
+
+  --collection-header-background: transparent;
+  --collection-header-border: none;
+  --collection-header-radius: 0;
+  --collection-header-padding: 0;
+  --collection-image-radius: 0;
+
+  --cart-item-image-radius: 6px;
+  --cart-item-image-background: var(--color-surface);
+  --cart-quantity-radius: 6px;
+  --cart-summary-background: var(--color-surface);
+  --cart-summary-border: var(--color-border);
+  --cart-summary-radius: 8px;
+  --cart-summary-shadow: none;
+
+  --footer-background: var(--color-surface);
+  --footer-border: var(--color-border);
+
+  --home-page-padding: 80px 0;
+  --home-article-background: transparent;
+  --home-article-border: none;
+  --home-article-radius: 0;
+  --home-article-padding: 0;
+  --home-article-shadow: none;
+  --home-title-max-width: 760px;
+  --home-title-font-size: clamp(36px, 6vw, 56px);
+  --home-title-line-height: 1.05;
+  --home-content-max-width: 820px;
+  --home-content-font-size: 17px;
+
+  --accent: var(--color-primary);
+  --text: var(--color-text);
+  --text-h: var(--color-heading);
+  --bg: var(--color-background);
+  --panel: var(--color-surface);
+  --border: var(--color-border);
+  --sans: var(--font-body);
+  --mono: var(--font-mono);
+}

@@ -1,0 +1,21 @@
+.product-price {
+  display: inline-flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.product-price__regular {
+  color: var(--color-text);
+  text-decoration: line-through;
+  font-size: 0.9em;
+}
+
+.product-price__sale {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.product-price__current {
+  font-weight: 600;
+  color: var(--color-heading);
+}

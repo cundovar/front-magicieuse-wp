@@ -1,0 +1,9 @@
+.shop-page {
+  width: min(var(--container-width), calc(100% - var(--container-gutter)));
+  margin: 0 auto;
+  padding: 48px 0;
+}
+
+.shop-page__header {
+  margin-bottom: 40px;
+}

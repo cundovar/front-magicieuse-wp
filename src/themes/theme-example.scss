@@ -1,0 +1,99 @@
+:root {
+  --color-primary: oklch(57% 0.18 348);
+  --color-text: oklch(47% 0.035 318);
+  --color-heading: oklch(22% 0.032 318);
+  --color-background: oklch(98% 0.018 86);
+  --color-surface: oklch(100% 0.003 95);
+  --color-border: oklch(88% 0.025 86);
+
+  --color-secondary: oklch(66% 0.13 178);
+  --color-sun: oklch(82% 0.15 78);
+  --color-leaf: oklch(62% 0.13 145);
+  --color-sky: oklch(73% 0.12 225);
+  --color-danger: oklch(58% 0.18 28);
+  --color-success: oklch(58% 0.14 150);
+
+  --font-display: 'Baloo 2', 'Nunito', 'Avenir Next', system-ui, sans-serif;
+  --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+  --theme-shadow: 0 18px 50px oklch(32% 0.04 318 / 0.14);
+  --theme-radius: 24px;
+
+  --button-radius: 999px;
+  --button-shadow: 0 12px 24px oklch(57% 0.18 348 / 0.24);
+  --button-font-weight: 900;
+
+  --header-background: color-mix(in oklch, var(--color-surface), transparent 8%);
+  --header-backdrop-filter: blur(16px);
+  --header-height: 76px;
+  --header-logo-font-family: var(--font-display);
+  --header-logo-font-weight: 800;
+  --header-link-radius: 999px;
+  --header-link-background: var(--color-surface);
+  --header-link-border: 1px solid var(--color-border);
+  --header-link-padding: 10px 15px;
+  --header-submenu-radius: 18px;
+  --header-submenu-shadow: var(--theme-shadow);
+
+  --product-list-gap: 18px;
+  --product-card-background: var(--color-surface);
+  --product-card-radius: var(--theme-radius);
+  --product-card-shadow: var(--theme-shadow);
+  --product-card-hover-shadow: 0 22px 60px oklch(32% 0.04 318 / 0.2);
+  --product-card-image-background: color-mix(in oklch, var(--color-sun), white 55%);
+  --product-card-image-radius: 18px;
+  --product-card-padding: 18px;
+
+  --product-page-gap: clamp(28px, 5vw, 64px);
+  --product-page-image-radius: 28px;
+  --product-page-image-background: color-mix(in oklch, var(--color-sky), white 70%);
+  --product-category-radius: 999px;
+  --product-category-background: color-mix(in oklch, var(--color-secondary), white 78%);
+  --product-category-border: none;
+  --product-category-padding: 5px 10px;
+
+  --collection-header-background: color-mix(in oklch, var(--color-sun), white 65%);
+  --collection-header-border: 1px solid color-mix(in oklch, var(--color-border), var(--color-sun) 30%);
+  --collection-header-radius: 42px 28px 58px 26px;
+  --collection-header-padding: clamp(20px, 4vw, 44px);
+  --collection-image-radius: 22px;
+
+  --cart-item-image-radius: 18px;
+  --cart-quantity-radius: 999px;
+  --cart-summary-background: var(--color-surface);
+  --cart-summary-radius: var(--theme-radius);
+  --cart-summary-shadow: var(--theme-shadow);
+
+  --footer-background: color-mix(in oklch, var(--color-surface), var(--color-sun) 18%);
+
+  --home-page-padding: clamp(34px, 7vw, 86px) 0;
+  --home-article-background: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--color-sun), white 48%),
+    color-mix(in oklch, var(--color-sky), white 58%)
+  );
+  --home-article-border: 1px solid color-mix(in oklch, var(--color-border), var(--color-sun) 30%);
+  --home-article-radius: 42px 28px 58px 26px;
+  --home-article-padding: clamp(22px, 5vw, 56px);
+  --home-article-shadow: var(--theme-shadow);
+  --home-title-max-width: 10ch;
+  --home-title-font-size: clamp(3rem, 9vw, 7.4rem);
+  --home-title-line-height: 0.96;
+  --home-content-max-width: 62ch;
+  --home-content-font-size: clamp(1.05rem, 2vw, 1.34rem);
+}
+
+body {
+  background:
+    radial-gradient(circle at 8% 8%, oklch(83% 0.12 78 / 0.28), transparent 24rem),
+    radial-gradient(circle at 96% 18%, oklch(78% 0.11 205 / 0.22), transparent 22rem),
+    var(--color-background);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 0.96;
+}
