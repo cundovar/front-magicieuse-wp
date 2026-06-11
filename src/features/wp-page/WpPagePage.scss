@@ -1,18 +1,68 @@
 .wp-page {
-  width: min(760px, calc(100% - 32px));
+  width: min(var(--wp-page-max-width, 760px), calc(100% - 32px));
   margin: 0 auto;
   padding: 48px 0 80px;
 }
 
-.wp-page__article {
-  > h1 {
-    margin-bottom: 32px;
-  }
+// --- En-tête de page (titre + date + image) ---
+
+.wp-page__header {
+  background: var(--wp-page-header-background);
+  border: var(--wp-page-header-border);
+  border-radius: var(--wp-page-header-radius);
+  box-shadow: var(--wp-page-header-shadow);
+  padding: var(--wp-page-header-padding);
+  margin-bottom: var(--wp-page-header-margin-bottom);
 }
+
+.wp-page__featured-image {
+  display: block;
+  width: 100%;
+  max-height: var(--wp-page-featured-image-max-height);
+  object-fit: cover;
+  border-radius: var(--wp-page-featured-image-radius);
+  margin-bottom: 24px;
+}
+
+.wp-page__title {
+  margin: 0 0 12px;
+}
+
+.wp-page__date {
+  display: inline-block;
+  font-size: var(--wp-page-date-font-size);
+  color: var(--wp-page-date-color);
+  background: var(--wp-page-date-background);
+  padding: var(--wp-page-date-padding);
+  border-radius: var(--wp-page-date-border-radius);
+  font-weight: 600;
+}
+
+// --- Contenu ---
 
 .wp-page__content {
   color: var(--color-text);
   line-height: 1.7;
+
+  // Blocs Gutenberg texte : gap serré (pas le grand gap des blocs visuels)
+  .wp-block-renderer {
+    gap: 0;
+  }
+
+  .wp-react-block--heading {
+    margin-top: 0.5em;
+    margin-bottom: 0.4em;
+    border-left: var(--wp-page-content-heading-border);
+    padding: var(--wp-page-content-heading-padding);
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .wp-react-block--paragraph {
+    margin-bottom: 0.85em;
+  }
 
   p {
     margin-bottom: 1em;

@@ -60,6 +60,24 @@
   }
 }
 
+.product-page__brands {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 16px;
+  margin: 8px 0 16px;
+  font-size: var(--product-page-specs-font-size);
+
+  dt {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-heading);
+  }
+}
+
 .product-page__price {
   margin: 16px 0 24px;
   font-size: 22px;
@@ -91,6 +109,47 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.product-page__badge {
+  display: inline-block;
+  font-size: var(--product-page-badge-font-size);
+  font-weight: var(--button-font-weight);
+  padding: 3px 10px;
+  border-radius: var(--button-radius);
+  margin-bottom: 8px;
+
+  &--sale {
+    background: var(--product-page-badge-sale-background);
+    color: var(--product-page-badge-sale-color);
+  }
+}
+
+.product-page__specs {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 16px;
+  margin: 0 0 24px;
+  font-size: var(--product-page-specs-font-size);
+  border-top: var(--product-page-specs-border);
+  padding-top: 16px;
+
+  dt {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-text);
+  }
+}
+
+.product-page__low-stock {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--product-page-low-stock-color);
+  margin: 0 0 12px;
 }
 
 .product-page__unavailable {

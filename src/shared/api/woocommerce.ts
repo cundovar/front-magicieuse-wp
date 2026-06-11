@@ -27,8 +27,10 @@ export type WooProduct = {
   slug: string
   permalink: string
   type: string
+  sku: string
   short_description: string
   description: string
+  on_sale: boolean
   prices: WooPrice
   images: WooImage[]
   categories?: Array<{
@@ -38,6 +40,14 @@ export type WooProduct = {
   }>
   is_purchasable: boolean
   is_in_stock: boolean
+  is_on_backorder: boolean
+  low_stock_remaining: number | null
+  stock_availability: {
+    text: string
+    class: string
+  }
+  formatted_weight: string
+  formatted_dimensions: string
   add_to_cart: {
     text: string
     description: string
@@ -65,10 +75,30 @@ export type WooCartItem = {
   prices: WooPrice
 }
 
+export type WooCartCoupon = {
+  code: string
+  discount_type: string
+  totals: {
+    total_discount: string
+    currency_code: string
+    currency_minor_unit: number
+  }
+}
+
+export type WooCartError = {
+  code: string
+  message: string
+}
+
 export type WooCart = {
   items: WooCartItem[]
   items_count: number
+  coupons: WooCartCoupon[]
+  errors: WooCartError[]
   totals: {
+    total_items: string
+    total_discount: string
+    total_shipping: string | null
     total_price: string
     total_tax: string
     currency_code: string

@@ -15,6 +15,11 @@ type Status = 'loading' | 'success' | 'error'
 
 const slugShop = import.meta.env.VITE_SLUG_SHOP || 'boutique'
 const slugProduct = import.meta.env.VITE_SLUG_PRODUCT || 'produit'
+const slugCheckout = import.meta.env.VITE_SLUG_CHECKOUT || 'commande'
+
+function fmtPrice(cart: WooCart, amount: string) {
+  return formatWooPrice(amount, cart.totals.currency_minor_unit, cart.totals.currency_code)
+}
 
 export default function CartPage() {
   const [status, setStatus] = useState<Status>('loading')
@@ -23,7 +28,6 @@ export default function CartPage() {
   const [busyKey, setBusyKey] = useState<string | null>(null)
   const { refresh: refreshCount } = useCart()
 
-  // setState uniquement dans les callbacks .then()/.catch(), pas de facon synchrone
   useEffect(() => {
     getCart()
       .then((data) => {
@@ -72,6 +76,19 @@ export default function CartPage() {
 
       {status === 'loading' && <p>Chargement du panier...</p>}
       {status === 'error' && <p role="alert">Erreur : {error}</p>}
+
+      {status === 'success' && cart && cart.errors.length > 0 && (
+        <ul className="cart-page__errors">
+          {cart.errors.map((err, i) => (
+            <li
+              key={i}
+              className="cart-error"
+              role="alert"
+              dangerouslySetInnerHTML={{ __html: err.message }}
+            />
+          ))}
+        </ul>
+      )}
 
       {status === 'success' && isEmpty && (
         <div className="cart-page__empty">
@@ -145,18 +162,61 @@ export default function CartPage() {
           </ul>
 
           <aside className="cart-page__summary">
-            <h2>Recapitulatif</h2>
+            <h2>Récapitulatif</h2>
+
+            {cart.coupons.length > 0 && (
+              <ul className="cart-page__coupons">
+                {cart.coupons.map((coupon) => (
+                  <li key={coupon.code} className="cart-coupon">
+                    <span className="cart-coupon__code">{coupon.code}</span>
+                    <span className="cart-coupon__discount">
+                      −{formatWooPrice(
+                        coupon.totals.total_discount,
+                        coupon.totals.currency_minor_unit,
+                        coupon.totals.currency_code,
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div className="cart-summary__lines">
+              <div className="cart-summary__line">
+                <span>Sous-total</span>
+                <span>{fmtPrice(cart, cart.totals.total_items)}</span>
+              </div>
+
+              {parseInt(cart.totals.total_discount) > 0 && (
+                <div className="cart-summary__line cart-summary__line--discount">
+                  <span>Remise</span>
+                  <span>−{fmtPrice(cart, cart.totals.total_discount)}</span>
+                </div>
+              )}
+
+              {parseInt(cart.totals.total_tax) > 0 && (
+                <div className="cart-summary__line">
+                  <span>TVA</span>
+                  <span>{fmtPrice(cart, cart.totals.total_tax)}</span>
+                </div>
+              )}
+
+              <div className="cart-summary__line">
+                <span>Livraison</span>
+                <span>
+                  {cart.totals.total_shipping !== null
+                    ? fmtPrice(cart, cart.totals.total_shipping)
+                    : 'À calculer'}
+                </span>
+              </div>
+            </div>
+
             <div className="cart-summary__row">
               <span>Total</span>
-              <strong>
-                {formatWooPrice(
-                  cart.totals.total_price,
-                  cart.totals.currency_minor_unit,
-                  cart.totals.currency_code,
-                )}
-              </strong>
+              <strong>{fmtPrice(cart, cart.totals.total_price)}</strong>
             </div>
-            <a href={getWooUrl('/checkout/')} className="btn-primary cart-page__checkout">
+
+            <a href={getWooUrl(`/${slugCheckout}/`)} className="btn-primary cart-page__checkout">
               Passer commande
             </a>
             <Link to={`/${slugShop}/`} className="cart-page__continue">

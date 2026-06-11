@@ -26,16 +26,23 @@ export default function CollectionPage() {
             {collection?.image && (
               <img
                 className="collection-page__image"
-                src={collection.image}
-                alt={decodeHtml(collection.name)}
+                src={collection.image.url}
+                alt={collection.image.alt || decodeHtml(collection.name)}
+                width={collection.image.width}
+                height={collection.image.height}
+                srcSet={collection.image.srcset || undefined}
+                sizes={collection.image.sizes || undefined}
               />
             )}
             <div className="collection-page__intro">
               <h1>{collection ? decodeHtml(collection.name) : ''}</h1>
               {collection?.description && (
-                <p className="collection-page__description">
-                  {decodeHtml(collection.description)}
-                </p>
+                <div
+                  className="collection-page__description"
+                  dangerouslySetInnerHTML={{
+                    __html: decodeHtml(collection.description).replace(/\n/g, '<br />'),
+                  }}
+                />
               )}
               <p className="collection-page__count">
                 {products.length} produit{products.length !== 1 ? 's' : ''}

@@ -44,6 +44,12 @@
   --product-card-image-background: oklch(19.8% 0.064 298.6);
   --product-card-image-radius:     0;
   --product-card-padding:          18px;
+  --product-card-badge-out-background: color-mix(in oklch, var(--color-danger) 15%, transparent);
+  --product-card-badge-out-color:      var(--color-danger);
+
+  --product-page-badge-sale-background: color-mix(in oklch, var(--color-sun) 20%, transparent);
+  --product-page-badge-sale-color:      var(--color-sun);
+  --product-page-low-stock-color:       var(--color-danger);
 
   --product-page-gap:              clamp(28px, 5vw, 64px);
   --product-page-image-radius:     0;
@@ -74,6 +80,14 @@
   --collection-image-aspect-ratio: 1;
   --collection-image-object-fit:  contain;
 
+  --cart-error-background: color-mix(in oklch, var(--color-danger) 15%, transparent);
+  --cart-error-color:      var(--color-danger);
+  --cart-error-border:     1px solid color-mix(in oklch, var(--color-danger) 40%, transparent);
+  --cart-discount-color:   var(--color-success);
+  --cart-coupon-background: color-mix(in oklch, var(--color-success) 10%, transparent);
+  --cart-coupon-border:    1px solid color-mix(in oklch, var(--color-success) 30%, transparent);
+  --cart-remove-hover-color: var(--color-danger);
+
   --cart-item-image-radius:    0;
   --cart-item-image-background: oklch(19.8% 0.064 298.6);
   --cart-quantity-radius:      0;
@@ -96,6 +110,10 @@
   --home-title-line-height:  0.9;
   --home-content-max-width:  62ch;
   --home-content-font-size:  clamp(1.05rem, 1.35vw, 1.25rem);
+
+  --wp-page-featured-image-radius:     0;
+  --wp-page-featured-image-max-height: clamp(280px, 40vw, 520px);
+  --wp-page-date-color:                var(--color-text);
 
   --wp-block-gap:             clamp(28px, 6vw, 72px);
   --wp-block-title-font-size: clamp(1.55rem, 3vw, 2.3rem);

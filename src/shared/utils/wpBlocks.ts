@@ -25,6 +25,10 @@ const DEFAULT_RENDERABLE_BLOCKS = new Set([
   'magicieuse/slider',
   'magicieuse/video-embed',
   'magicieuse/steps',
+  'magicieuse/partners',
+  'core/list',
+  'core/quote',
+  'core/separator',
 ])
 
 export function hasRenderableBlocks(

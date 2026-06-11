@@ -96,6 +96,27 @@
   --home-content-max-width:  62ch;
   --home-content-font-size:  clamp(1.05rem, 2vw, 1.34rem);
 
+  --wp-page-max-width:          860px;
+  --wp-page-header-background:  linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--color-sun), white 60%),
+    color-mix(in oklch, var(--color-sky), white 68%)
+  );
+  --wp-page-header-padding:        clamp(24px, 4vw, 48px);
+  --wp-page-header-border:         1px solid color-mix(in oklch, var(--color-border), var(--color-sun) 30%);
+  --wp-page-header-radius:         34px 22px 42px 22px;
+  --wp-page-header-shadow:         var(--theme-shadow);
+  --wp-page-header-margin-bottom:  clamp(32px, 5vw, 56px);
+  --wp-page-featured-image-radius: var(--theme-radius);
+  --wp-page-featured-image-max-height: clamp(240px, 36vw, 460px);
+  --wp-page-date-background:       color-mix(in oklch, var(--color-sun), white 52%);
+  --wp-page-date-padding:          4px 14px;
+  --wp-page-date-border-radius:    999px;
+  --wp-page-date-color:            oklch(38% 0.08 78);
+  --wp-page-date-font-size:        12px;
+  --wp-page-content-heading-border:  3px solid var(--color-primary);
+  --wp-page-content-heading-padding: 0 0 0 12px;
+
   --wp-block-gap:             clamp(28px, 6vw, 72px);
   --wp-block-title-font-size: clamp(1.55rem, 3vw, 2.3rem);
   --wp-block-media-radius:    28px;

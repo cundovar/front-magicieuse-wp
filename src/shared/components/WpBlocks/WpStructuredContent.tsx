@@ -6,9 +6,13 @@ type Props = {
 }
 
 export default function WpStructuredContent({ blocks }: Props) {
+  const filtered = blocks.filter(
+    (b) => b.blockName !== null || b.innerHTML.trim() !== '',
+  )
+
   return (
     <div className="wp-block-renderer">
-      {blocks.map((block, index) => (
+      {filtered.map((block, index) => (
         <BlockRenderer
           key={`${block.blockName ?? 'html'}-${index}`}
           block={block}

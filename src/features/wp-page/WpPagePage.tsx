@@ -13,6 +13,14 @@ import './WpPagePage.scss'
 
 type PageData = [WpContent, WpBlocksContent | null]
 
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+}
+
 export default function WpPagePage() {
   const { slug } = useParams<{ slug: string }>()
 
@@ -41,8 +49,27 @@ export default function WpPagePage() {
       {status === 'not-found' && <p>Page introuvable.</p>}
 
       {status === 'success' && page && (
-        <article className="wp-page__article">
-          <h1>{decodeHtml(page.title)}</h1>
+        <article>
+          <header className="wp-page__header">
+            {page.featured_image && (
+              <img
+                className="wp-page__featured-image"
+                src={page.featured_image.url}
+                alt={page.featured_image.alt || decodeHtml(page.title)}
+                width={page.featured_image.width}
+                height={page.featured_image.height}
+                srcSet={page.featured_image.srcset || undefined}
+                sizes={page.featured_image.sizes || undefined}
+              />
+            )}
+            <h1 className="wp-page__title">{decodeHtml(page.title)}</h1>
+            {page.date && (
+              <time className="wp-page__date" dateTime={page.date}>
+                {formatDate(page.date)}
+              </time>
+            )}
+          </header>
+
           <div className="wp-page__content wp-content">
             {structuredPage ? (
               <WpStructuredContent blocks={structuredPage.blocks} />

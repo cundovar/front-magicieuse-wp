@@ -38,6 +38,52 @@
   text-align: center;
 }
 
+.wp-react-block--list {
+  max-width: var(--wp-block-text-max-width, 68ch);
+  line-height: var(--wp-block-text-line-height, 1.7);
+
+  ul,
+  ol {
+    padding-left: 1.5em;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: 0.35em;
+  }
+}
+
+.wp-react-block--quote {
+  blockquote {
+    margin: 0;
+    padding: 16px 20px;
+    border-left: 3px solid var(--color-primary);
+    border-radius: 0 var(--wp-block-card-radius, 8px) var(--wp-block-card-radius, 8px) 0;
+    background: var(--wp-block-card-background, var(--color-surface));
+
+    p {
+      margin: 0;
+      font-style: italic;
+      line-height: var(--wp-block-text-line-height, 1.7);
+      color: var(--wp-block-title-color, var(--color-heading));
+    }
+
+    cite {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      font-style: normal;
+      color: var(--wp-block-color, var(--color-text));
+    }
+  }
+}
+
+.wp-react-block--separator {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 0;
+}
+
 .wp-react-block--buttons {
   display: flex;
   flex-wrap: wrap;
@@ -167,6 +213,53 @@
 .wp-react-block--video,
 .wp-react-block--steps {
   min-width: 0;
+}
+
+.wp-react-block--partners {
+  .partners-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .partner-card {
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 8px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &__name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    &__description {
+      font-size: 0.875rem;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+      flex: 1;
+    }
+
+    &__link {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--color-primary, #6366f1);
+      text-decoration: none;
+      margin-top: 0.25rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 .wp-react-block__faq-list,

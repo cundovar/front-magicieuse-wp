@@ -53,7 +53,8 @@ export type WpCollection = {
   slug: string
   description: string
   count: number
-  image: string | null
+  image: WpBlockImageData | null
+  parent: number
 }
 
 export type WpPageContent = {
@@ -71,6 +72,7 @@ export type WpContent = {
   content: string
   excerpt: string
   date: string
+  featured_image: WpBlockImageData | null
 }
 
 export type WpBlockImageData = {
@@ -152,9 +154,28 @@ export async function getPageBySlug(slug: string) {
   return pages[0] ?? null
 }
 
+export type WpBrandPerson = {
+  id: number
+  name: string
+  slug: string
+}
+
+export type WpProductBrandRole = {
+  id: number
+  name: string
+  slug: string
+  people: WpBrandPerson[]
+}
+
 export function getCollection(slug: string) {
   return fetchJson<WpCollection>(
     `/magicieuse/v1/collection/${encodeURIComponent(slug)}`,
+  )
+}
+
+export function getProductBrands(slug: string) {
+  return fetchJson<WpProductBrandRole[]>(
+    `/magicieuse/v1/product/${encodeURIComponent(slug)}/brands`,
   )
 }
 

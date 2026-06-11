@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>La Magicieuse - prototype ecommerce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: oklch(98% 0.018 86);
+      --surface: oklch(100% 0.003 95);
+      --fg: oklch(22% 0.032 318);
+      --muted: oklch(47% 0.035 318);
+      --border: oklch(88% 0.025 86);
+      --accent: oklch(57% 0.18 348);
+      --secondary: oklch(66% 0.13 178);
+      --sun: oklch(82% 0.15 78);
+      --leaf: oklch(62% 0.13 145);
+      --sky: oklch(73% 0.12 225);
+      --danger: oklch(58% 0.18 28);
+      --success: oklch(58% 0.14 150);
+      --shadow: 0 18px 50px oklch(32% 0.04 318 / 0.14);
+      --radius: 24px;
+      --font-display: 'Baloo 2', 'Nunito', 'Avenir Next', system-ui, sans-serif;
+      --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 8% 8%, oklch(83% 0.12 78 / 0.28), transparent 24rem),
+        radial-gradient(circle at 96% 18%, oklch(78% 0.11 205 / 0.22), transparent 22rem),
+        var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    img { display: block; max-width: 100%; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: color-mix(in oklch, var(--surface), transparent 8%);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+    }
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 18px 18px 14px 22px;
+      background: conic-gradient(from 120deg, var(--accent), var(--sun), var(--secondary), var(--accent));
+      box-shadow: inset 0 0 0 4px var(--surface);
+    }
+    .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap; }
+    .nav-links a, .chip {
+      min-height: 42px;
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+    }
+    .cart-link { background: var(--fg) !important; color: var(--surface) !important; border-color: var(--fg) !important; }
+    .btn {
+      min-height: 46px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      padding: 12px 18px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 12px 24px oklch(57% 0.18 348 / 0.24);
+    }
+    .btn.secondary { background: var(--secondary); box-shadow: none; color: oklch(19% 0.04 178); }
+    .btn.ghost { background: var(--surface); color: var(--fg); border: 1px solid var(--border); box-shadow: none; }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+      gap: clamp(28px, 5vw, 64px);
+      align-items: center;
+      padding: clamp(34px, 7vw, 86px) 0;
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 800;
+    }
+    h1, h2, h3 { font-family: var(--font-display); line-height: 0.96; margin: 0; letter-spacing: 0; }
+    h1 { max-width: 10ch; font-size: clamp(3rem, 9vw, 7.4rem); }
+    h2 { font-size: clamp(2rem, 5vw, 4.25rem); }
+    h3 { font-size: clamp(1.25rem, 2.8vw, 2rem); }
+    .lead { max-width: 58ch; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.34rem); }
+    .section { padding: clamp(34px, 6vw, 78px) 0; scroll-margin-top: 96px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+    .grid { display: grid; gap: 18px; }
+    .grid.books { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .book-card { position: relative; display: grid; gap: 12px; padding: 14px; }
+    .cover-wrap {
+      aspect-ratio: 4 / 5.15;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 18px;
+      background: color-mix(in oklch, var(--sun), white 55%);
+    }
+    .book-card img { width: 100%; height: 100%; object-fit: cover; }
+    .book-title { font-weight: 900; font-size: 1.05rem; line-height: 1.18; }
+    .meta { color: var(--muted); font-size: 0.92rem; }
+    .price { font-family: var(--font-mono); font-weight: 800; }
+    .badge {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      min-height: 30px;
+      border-radius: 999px;
+      background: color-mix(in oklch, var(--secondary), white 78%);
+      color: oklch(28% 0.08 178);
+      padding: 5px 10px;
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+    .shape-panel {
+      border: 1px solid color-mix(in oklch, var(--border), var(--sun) 30%);
+      border-radius: 42px 28px 58px 26px;
+      background: linear-gradient(135deg, color-mix(in oklch, var(--sun), white 48%), color-mix(in oklch, var(--sky), white 58%));
+      padding: clamp(20px, 4vw, 44px);
+    }
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 18px 0 28px; }
+    .filter-btn {
+      min-height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      padding: 9px 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .filter-btn.active { background: var(--fg); color: var(--surface); border-color: var(--fg); }
+    .drawer-row { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+    .newsletter {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      max-width: 560px;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+    }
+    .newsletter input { min-height: 42px; border: 0; padding: 0 14px; background: transparent; outline: 0; }
+    .notice { min-height: 24px; margin-top: 10px; color: var(--success); font-weight: 800; }
+    .cart-layout { grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); margin-top: 28px; }
+    .cart-item { display: grid; grid-template-columns: 68px 1fr auto; gap: 14px; align-items: center; }
+    .cart-item img { width: 68px; height: 88px; border-radius: 12px; object-fit: cover; }
+    .coupon-input { max-width: 160px; border: 1px solid var(--border); border-radius: 999px; padding: 10px 14px; }
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      width: min(380px, calc(100vw - 36px));
+      display: none;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: var(--surface);
+      box-shadow: 0 22px 70px oklch(20% 0.04 318 / 0.22);
+      padding: 18px;
+    }
+    .toast.open { display: block; }
+    .footer { margin-top: 60px; padding: 36px 0; border-top: 1px solid var(--border); color: var(--muted); }
+
+    @media (max-width: 880px) {
+      .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .nav-links { justify-content: flex-start; }
+      .hero { grid-template-columns: 1fr; padding-top: 30px; }
+      .grid.books { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.three, .cart-layout { grid-template-columns: 1fr; }
+      .section-head { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 22px, 1180px); }
+      .nav-links a { min-height: 38px; padding: 8px 11px; font-size: 0.92rem; }
+      .grid.books { grid-template-columns: 1fr; }
+      .newsletter { grid-template-columns: 1fr; border-radius: 24px; }
+      .newsletter .btn { width: 100%; }
+      .cart-item { grid-template-columns: 58px 1fr; }
+      .cart-item .price { grid-column: 2; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="shell nav" aria-label="Navigation principale">
+      <a class="brand" href="#accueil"><span class="brand-mark"></span><span>La Magicieuse</span></a>
+      <div class="nav-links">
+        <a href="#accueil">Accueil</a>
+        <a href="#catalogue">Catalogue</a>
+        <a href="#collections">Collections</a>
+        <a href="#artistes">Artistes</a>
+        <a class="cart-link" href="#panier">Panier <span data-cart-count>0</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="shell">
+    <section class="hero" id="accueil">
+      <div>
+        <p class="eyebrow">Albums jeunesse engages</p>
+        <h1>Des livres pour grandir, s'emouvoir, questionner.</h1>
+        <p class="lead">La Magicieuse publie et reedite des albums qui parlent aux enfants, aux parents, aux classes et aux bibliotheques avec des images fortes et des sujets qui comptent.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px">
+          <a class="btn" href="#catalogue">Explorer les livres</a>
+          <a class="btn ghost" href="#newsletter">Recevoir les actus</a>
+        </div>
+      </div>
+      <aside class="shape-panel" aria-label="Selection de livres">
+        <div class="grid" style="grid-template-columns:1.1fr .9fr;gap:16px;align-items:center">
+          <img src="https://www.la-magicieuse.org/wp-content/uploads/2020/12/LRBD_1ercouv_-600x770.jpg" alt="La Reine des Baleines" style="border-radius:24px;box-shadow:var(--shadow)">
+          <div>
+            <span class="badge">Livre phare</span>
+            <h3 style="margin-top:14px">La Reine des Baleines</h3>
+            <p class="meta">Une fresque ludique et ecologique, toujours d'actualite.</p>
+            <button class="btn" type="button" data-add="baleines">Ajouter - 13 EUR</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Nouveautes et fonds</p>
+          <h2>Les livres en avant</h2>
+        </div>
+        <a class="chip" href="#catalogue">Tout le catalogue</a>
+      </div>
+      <div class="grid books" data-home-books></div>
+    </section>
+
+    <section class="section" id="collections">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Collections</p>
+          <h2>Des portes d'entree claires</h2>
+        </div>
+      </div>
+      <div class="grid three">
+        <article class="card" style="padding:24px;background:color-mix(in oklch,var(--sun),white 62%)">
+          <span class="badge">La Mufassette</span>
+          <h3 style="margin-top:18px">Albums pour lire ensemble</h3>
+          <p class="meta">Ecologie, difference, memoire: des livres qui ouvrent la discussion.</p>
+        </article>
+        <article class="card" style="padding:24px;background:color-mix(in oklch,var(--sky),white 70%)">
+          <span class="badge">La Karnovora</span>
+          <h3 style="margin-top:18px">Recits plus grands formats</h3>
+          <p class="meta">Des univers graphiques forts pour enfants lecteurs et adolescents.</p>
+        </article>
+        <article class="card" style="padding:24px;background:color-mix(in oklch,var(--secondary),white 76%)">
+          <span class="badge">Autres collections</span>
+          <h3 style="margin-top:18px">Chameau borgne, Poings fissures</h3>
+          <p class="meta">La navigation conserve les noms singuliers qui font l'identite du catalogue.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="artistes">
+      <div class="shape-panel">
+        <div class="grid three">
+          <div>
+            <p class="eyebrow">Auteurices et illustrateurices</p>
+            <h2>Une maison faite par des artistes</h2>
+          </div>
+          <p class="lead">Jean-Pierre Lamérand, Somotho, Léonia, Willy Chupa, Chiara Abastanotti, Damayanthi Ravindher, Paolo Valentini, Sergio Gibertini et les autres signatures deviennent visibles des l'accueil.</p>
+          <a class="btn secondary" href="#catalogue">Filtrer par collection</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="catalogue">
+      <p class="eyebrow">Catalogue</p>
+      <h2>Choisir un livre par envie, age, theme.</h2>
+      <p class="lead">Les filtres restent simples pour les parents, enseignants et bibliothecaires. Les couvertures restent grandes parce que le livre est l'objet principal.</p>
+      <div class="filters" aria-label="Filtres catalogue">
+        <button class="filter-btn active" type="button" data-filter="all">Tous</button>
+        <button class="filter-btn" type="button" data-filter="La Mufassette">La Mufassette</button>
+        <button class="filter-btn" type="button" data-filter="La Karnovora">La Karnovora</button>
+        <button class="filter-btn" type="button" data-filter="Ecologie">Ecologie</button>
+        <button class="filter-btn" type="button" data-filter="Difference">Difference</button>
+        <button class="filter-btn" type="button" data-filter="Accompagne">Lecture accompagnee</button>
+      </div>
+      <div class="grid books" data-catalogue-grid></div>
+    </section>
+
+    <section class="section" id="panier">
+      <p class="eyebrow">Panier</p>
+      <h2>Verifier avant paiement WooCommerce.</h2>
+      <p class="lead">Le front headless garde un panier clair et rassurant, puis transmet la commande au tunnel de paiement natif WooCommerce.</p>
+      <div class="grid cart-layout">
+        <div class="card" style="padding:22px" data-cart-lines></div>
+        <aside class="card" style="padding:22px;height:fit-content">
+          <span class="badge">Resume</span>
+          <div class="drawer-row"><span>Sous-total</span><strong data-subtotal>0,00 EUR</strong></div>
+          <div class="drawer-row"><span>Livraison</span><strong>-</strong></div>
+          <div class="drawer-row"><span>Total estime</span><strong data-total>0,00 EUR</strong></div>
+          <button class="btn" type="button" style="width:100%;margin-top:18px" id="checkoutBtn">Continuer vers WooCommerce</button>
+          <p class="meta" id="checkoutNote" aria-live="polite" style="min-height:24px"></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="newsletter">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Actualites</p>
+          <h2>Recevoir les nouvelles parutions</h2>
+        </div>
+      </div>
+      <form class="newsletter" data-newsletter>
+        <input type="email" name="email" placeholder="adresse@email.fr" aria-label="Adresse email">
+        <button class="btn" type="submit">S'inscrire</button>
+      </form>
+      <div class="notice" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <div class="toast" data-mini-cart aria-live="polite"></div>
+  <footer class="footer"><div class="shell">La Magicieuse - Nos Collections - Nos Artistes - Mon compte - Panier - paiement securise via WooCommerce.</div></footer>
+
+  <script>
+    const catalogue = [
+      {
+        id: "baleines",
+        title: "La Reine des Baleines",
+        author: "Jean-Pierre Lamérand",
+        collection: "La Mufassette",
+        theme: "Ecologie",
+        age: "Tous ages",
+        price: 13,
+        img: "https://www.la-magicieuse.org/wp-content/uploads/2020/12/LRBD_1ercouv_-600x770.jpg",
+        desc: "Une petite baleine en a assez de la tyrannie des Pirates. A travers une fresque ludique et écologique, cet album visionnaire reste d'actualité."
+      },
+      {
+        id: "pouacre",
+        title: "Monsieur Pouacre et Les Etranges",
+        author: "Jean-Pierre Lamérand",
+        collection: "La Mufassette",
+        theme: "Difference",
+        age: "A lire ensemble",
+        price: 14,
+        img: "https://www.la-magicieuse.org/wp-content/uploads/2023/11/Pouacre_couv_1ere3-300x300.jpg",
+        desc: "Sur sa planète, le Pouacre déteste les Etranges, mais une rencontre le fait changer d'avis."
+      },
+      {
+        id: "shoah",
+        title: "La Shoah expliquee aux enfants",
+        author: "Chiara Abastanotti, Damayanthi Ravindher, Paolo Valentini, Sergio Gibertini",
+        collection: "La Mufassette",
+        theme: "Histoire",
+        age: "Accompagne",
+        price: 14,
+        img: "https://www.la-magicieuse.org/wp-content/uploads/2020/02/Couv_Shoah-300x300.jpg",
+        desc: "Un outil pour permettre aux parents, professeurs et adultes d'aborder la Shoah avec les enfants."
+      },
+      {
+        id: "soeur",
+        title: "Ou est passee ma soeur ?",
+        author: "La Magicieuse",
+        collection: "La Mufassette",
+        theme: "Famille",
+        age: "Des 6 ans",
+        price: 13,
+        img: "https://www.la-magicieuse.org/wp-content/uploads/2022/11/Couv-Ou-est-passee-ma-soeur-pdf.jpg",
+        desc: "Un album autour du lien familial, a hauteur d'enfant."
+      },
+      {
+        id: "jimto",
+        title: "Jim'To",
+        author: "La Magicieuse",
+        collection: "La Karnovora",
+        theme: "Aventure",
+        age: "Des 8 ans",
+        price: 13,
+        img: "https://www.la-magicieuse.org/wp-content/uploads/2019/05/JimTo.Couv_-300x300.jpg",
+        desc: "Un titre du catalogue historique, porte par une couverture expressive."
+      },
+      {
+        id: "soeurisees",
+        title: "Les Soeurisees",
+        author: "Neil Jobard, Agathe Lepoutre",
+        collection: "La Karnovora",
+        theme: "Famille",
+        age: "Ados",
+        price: 14,
+        img: "https://www.la-magicieuse.org/wp-content/uploads/2023/11/Couv1_V7-300x300.jpg",
+        desc: "Un titre recent du catalogue, porte par une grande couverture coloree."
+      }
+    ];
+
+    function formatPrice(value) {
+      return `${value.toFixed(2).replace(".", ",")} EUR`;
+    }
+
+    function currentCart() {
+      try {
+        return JSON.parse(localStorage.getItem("magicieuse-cart") || "[]");
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveCart(items) {
+      localStorage.setItem("magicieuse-cart", JSON.stringify(items));
+      updateCartCount();
+      renderCart();
+    }
+
+    function addToCart(id) {
+      const item = catalogue.find((book) => book.id === id);
+      if (!item) return;
+      const cart = currentCart();
+      const existing = cart.find((entry) => entry.id === id);
+      if (existing) existing.qty += 1;
+      else cart.push({ id, qty: 1 });
+      saveCart(cart);
+      openMiniCart();
+    }
+
+    function removeFromCart(id) {
+      saveCart(currentCart().filter((entry) => entry.id !== id));
+    }
+
+    function updateCartCount() {
+      const count = currentCart().reduce((sum, item) => sum + item.qty, 0);
+      document.querySelectorAll("[data-cart-count]").forEach((el) => {
+        el.textContent = String(count);
+      });
+    }
+
+    function renderBookGrid(selector, books = catalogue) {
+      const host = document.querySelector(selector);
+      if (!host) return;
+      host.innerHTML = books.map((book) => `
+        <article class="card book-card" data-book data-age="${book.age}" data-collection="${book.collection}" data-theme="${book.theme}">
+          <div class="cover-wrap">
+            <img src="${book.img}" alt="Couverture de ${book.title}">
+          </div>
+          <span class="badge">${book.collection}</span>
+          <div>
+            <div class="book-title">${book.title}</div>
+            <div class="meta">${book.author}</div>
+          </div>
+          <p class="meta">${book.desc}</p>
+          <div class="drawer-row">
+            <span class="price">${formatPrice(book.price)}</span>
+            <button class="btn" type="button" data-add="${book.id}">Ajouter</button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function cartTotal(cart) {
+      return cart.reduce((sum, entry) => {
+        const book = catalogue.find((item) => item.id === entry.id);
+        return sum + (book ? book.price * entry.qty : 0);
+      }, 0);
+    }
+
+    function renderCart() {
+      const host = document.querySelector("[data-cart-lines]");
+      if (!host) return;
+      const cart = currentCart();
+      if (!cart.length) {
+        host.innerHTML = `
+          <strong>Votre panier est vide.</strong>
+          <p class="meta">Ajoutez un livre depuis le catalogue pour voir le resume avant le paiement WooCommerce.</p>
+          <a class="btn ghost" style="display:inline-flex;margin-top:14px" href="#catalogue">Retour au catalogue</a>
+        `;
+      } else {
+        host.innerHTML = cart.map((entry) => {
+          const book = catalogue.find((item) => item.id === entry.id);
+          if (!book) return "";
+          return `
+            <div class="cart-item">
+              <img src="${book.img}" alt="Couverture de ${book.title}">
+              <div>
+                <strong>${book.title}</strong>
+                <p class="meta">${book.author} - ${book.collection} - quantite ${entry.qty}</p>
+                <button class="filter-btn" type="button" data-remove="${book.id}">Retirer</button>
+              </div>
+              <span class="price">${formatPrice(book.price * entry.qty)}</span>
+            </div>
+          `;
+        }).join("");
+        host.innerHTML += `
+          <div class="drawer-row">
+            <label for="coupon"><strong>Code promo</strong></label>
+            <input class="coupon-input" id="coupon" placeholder="MAGIEUSE">
+          </div>
+        `;
+      }
+      const subtotal = cartTotal(cart);
+      document.querySelector("[data-subtotal]").textContent = formatPrice(subtotal);
+      document.querySelector("[data-total]").textContent = subtotal ? formatPrice(subtotal + 3) : formatPrice(0);
+    }
+
+    function openMiniCart() {
+      const drawer = document.querySelector("[data-mini-cart]");
+      if (!drawer) return;
+      const cart = currentCart();
+      const lines = cart.map((entry) => {
+        const book = catalogue.find((item) => item.id === entry.id);
+        return book ? `<div class="drawer-row"><span>${book.title}<br><small class="meta">x${entry.qty}</small></span><strong>${formatPrice(book.price * entry.qty)}</strong></div>` : "";
+      }).join("");
+      drawer.innerHTML = `
+        <strong>Panier La Magicieuse</strong>
+        ${lines || `<p class="meta">Votre panier est vide.</p>`}
+        <div class="drawer-row"><span>Total estime</span><strong>${formatPrice(cartTotal(cart))}</strong></div>
+        <a class="btn" style="display:flex;align-items:center;justify-content:center;margin-top:14px" href="#panier">Voir le panier</a>
+      `;
+      drawer.classList.add("open");
+      setTimeout(() => drawer.classList.remove("open"), 4200);
+    }
+
+    function setupFilters() {
+      const buttons = document.querySelectorAll("[data-filter]");
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          const value = button.dataset.filter;
+          const books = value === "all" ? catalogue : catalogue.filter((book) => {
+            return book.collection === value || book.theme === value || book.age === value;
+          });
+          renderBookGrid("[data-catalogue-grid]", books);
+        });
+      });
+    }
+
+    function setupNewsletter() {
+      const form = document.querySelector("[data-newsletter]");
+      if (!form) return;
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const input = form.querySelector("input");
+        const note = form.parentElement.querySelector(".notice");
+        if (!input.value.includes("@")) {
+          note.textContent = "Ajoutez une adresse email valide.";
+          note.style.color = "var(--danger)";
+          return;
+        }
+        note.textContent = "Merci, l'inscription est prete a etre envoyee a WordPress.";
+        note.style.color = "var(--success)";
+        input.value = "";
+      });
+    }
+
+    document.addEventListener("click", (event) => {
+      const add = event.target.closest("[data-add]");
+      if (add) addToCart(add.dataset.add);
+      const remove = event.target.closest("[data-remove]");
+      if (remove) removeFromCart(remove.dataset.remove);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      updateCartCount();
+      renderBookGrid("[data-home-books]", catalogue.slice(0, 4));
+      renderBookGrid("[data-catalogue-grid]", catalogue);
+      renderCart();
+      setupFilters();
+      setupNewsletter();
+      document.getElementById("checkoutBtn").addEventListener("click", () => {
+        document.getElementById("checkoutNote").textContent = "Redirection prete vers /commande/ avec le panier WooCommerce synchronise.";
+      });
+    });
+  </script>
+</body>
+</html>

@@ -39,6 +39,21 @@
   --product-card-image-background: var(--color-surface);
   --product-card-image-radius: 0;
   --product-card-padding: 16px;
+  --product-card-desc-color: var(--color-text);
+  --product-card-desc-font-size: 13px;
+  --product-card-footer-gap: 8px;
+  --product-card-badge-out-background: #fde8e8;
+  --product-card-badge-out-color: #c0392b;
+  --product-card-badge-font-size: 12px;
+  --product-card-add-btn-font-size: 13px;
+  --product-card-add-btn-padding: 6px 14px;
+
+  --product-page-badge-font-size: 12px;
+  --product-page-badge-sale-background: #fff3cd;
+  --product-page-badge-sale-color: #856404;
+  --product-page-specs-border: 1px solid var(--color-border);
+  --product-page-specs-font-size: 14px;
+  --product-page-low-stock-color: #c0392b;
 
   --product-page-image-radius: 8px;
   --product-page-image-background: var(--color-surface);
@@ -79,6 +94,14 @@
   --collection-image-object-fit: contain;
   --collection-image-max-width-mobile: 320px;
 
+  --cart-error-background: #fde8e8;
+  --cart-error-color: #c0392b;
+  --cart-error-border: 1px solid #f5c6c6;
+  --cart-discount-color: #27ae60;
+  --cart-coupon-background: #f0faf3;
+  --cart-coupon-border: 1px solid #b7e4c7;
+  --cart-remove-hover-color: #c0392b;
+
   --cart-item-image-radius: 6px;
   --cart-item-image-background: var(--color-surface);
   --cart-quantity-radius: 6px;
@@ -101,6 +124,23 @@
   --home-title-line-height: 1.05;
   --home-content-max-width: 820px;
   --home-content-font-size: 17px;
+
+  --wp-page-max-width: 760px;
+  --wp-page-header-background: transparent;
+  --wp-page-header-padding: 0 0 32px;
+  --wp-page-header-border: none;
+  --wp-page-header-radius: 0;
+  --wp-page-header-shadow: none;
+  --wp-page-header-margin-bottom: 40px;
+  --wp-page-featured-image-radius: 8px;
+  --wp-page-featured-image-max-height: 400px;
+  --wp-page-date-background: transparent;
+  --wp-page-date-padding: 0;
+  --wp-page-date-border-radius: 0;
+  --wp-page-date-color: var(--color-text);
+  --wp-page-date-font-size: 13px;
+  --wp-page-content-heading-border: none;
+  --wp-page-content-heading-padding: 0;
 
   --wp-block-gap: 24px;
   --wp-block-color: var(--color-text);

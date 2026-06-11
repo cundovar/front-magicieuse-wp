@@ -87,6 +87,44 @@ function isVideoFileUrl(url: string) {
   return /\.(mp4|webm|ogg)(\?.*)?$/i.test(url)
 }
 
+function isInternalUrl(url: string): boolean {
+  if (!url) return false
+  if (url.startsWith('/')) return true
+  try {
+    return new URL(url).hostname === window.location.hostname
+  } catch {
+    return false
+  }
+}
+
+function SmartLink({
+  href,
+  className,
+  children,
+  target,
+  rel,
+}: {
+  href: string
+  className?: string
+  children: React.ReactNode
+  target?: string
+  rel?: string
+}) {
+  if (isInternalUrl(href) && !target) {
+    return <Link className={className} to={href}>{children}</Link>
+  }
+  return (
+    <a
+      className={className}
+      href={href}
+      target={target}
+      rel={rel ?? (target === '_blank' ? 'noopener noreferrer' : undefined)}
+    >
+      {children}
+    </a>
+  )
+}
+
 function HeadingBlock({ block }: BlockComponentProps) {
   return (
     <div
@@ -135,14 +173,14 @@ function ButtonLink({
   button: NonNullable<NonNullable<WpBlock['data']>['button']>
 }) {
   return (
-    <a
+    <SmartLink
       className={`btn-primary wp-react-block__button${button.className ? ` ${button.className}` : ''}`}
       href={button.url}
       target={button.target ?? undefined}
-      rel={button.rel ?? (button.target === '_blank' ? 'noopener noreferrer' : undefined)}
+      rel={button.rel ?? undefined}
     >
       {button.label}
-    </a>
+    </SmartLink>
   )
 }
 
@@ -216,14 +254,14 @@ function HeroBlock({ block }: BlockComponentProps) {
         {(primaryButtonLabel || secondaryButtonLabel) && (
           <div className="wp-react-block__actions">
             {primaryButtonLabel && primaryButtonUrl && (
-              <a className="btn-primary" href={primaryButtonUrl}>
+              <SmartLink className="btn-primary" href={primaryButtonUrl}>
                 {primaryButtonLabel}
-              </a>
+              </SmartLink>
             )}
             {secondaryButtonLabel && secondaryButtonUrl && (
-              <a className="wp-react-block__link" href={secondaryButtonUrl}>
+              <SmartLink className="wp-react-block__link" href={secondaryButtonUrl}>
                 {secondaryButtonLabel}
-              </a>
+              </SmartLink>
             )}
           </div>
         )}
@@ -257,9 +295,9 @@ function CtaBlock({ block }: BlockComponentProps) {
         {text && <p className="wp-react-block__text">{text}</p>}
       </div>
       {buttonLabel && buttonUrl && (
-        <a className="btn-primary" href={buttonUrl}>
+        <SmartLink className="btn-primary" href={buttonUrl}>
           {buttonLabel}
-        </a>
+        </SmartLink>
       )}
     </section>
   )
@@ -339,9 +377,9 @@ function ImageTextBlock({ block }: BlockComponentProps) {
         {title && <h2 className="wp-react-block__title">{title}</h2>}
         {text && <p className="wp-react-block__text">{text}</p>}
         {buttonLabel && buttonUrl && (
-          <a className="btn-primary" href={buttonUrl}>
+          <SmartLink className="btn-primary" href={buttonUrl}>
             {buttonLabel}
-          </a>
+          </SmartLink>
         )}
       </div>
     </section>
@@ -623,7 +661,7 @@ function SliderBlock({ block }: BlockComponentProps) {
                   {slide.title && <h3>{slide.title}</h3>}
                   {slide.text && <p>{slide.text}</p>}
                   {slide.buttonLabel && slide.buttonUrl && (
-                    <a className="btn-primary" href={slide.buttonUrl}>{slide.buttonLabel}</a>
+                    <SmartLink className="btn-primary" href={slide.buttonUrl}>{slide.buttonLabel}</SmartLink>
                   )}
                 </div>
               </article>
@@ -657,6 +695,28 @@ function VideoEmbedBlock({ block }: BlockComponentProps) {
   )
 }
 
+function ListBlock({ block }: BlockComponentProps) {
+  return (
+    <div
+      className="wp-react-block wp-react-block--list"
+      dangerouslySetInnerHTML={{ __html: blockHtml(block) }}
+    />
+  )
+}
+
+function QuoteBlock({ block }: BlockComponentProps) {
+  return (
+    <div
+      className="wp-react-block wp-react-block--quote"
+      dangerouslySetInnerHTML={{ __html: blockHtml(block) }}
+    />
+  )
+}
+
+function SeparatorBlock() {
+  return <hr className="wp-react-block wp-react-block--separator" />
+}
+
 function StepsBlock({ block }: BlockComponentProps) {
   const title = attrString(block, 'title')
   const items = attrItems(block, 'items', ([stepTitle, text]) => ({ title: stepTitle, text }))
@@ -680,12 +740,44 @@ function StepsBlock({ block }: BlockComponentProps) {
   )
 }
 
+interface PartnerItem { name?: string; description?: string; url?: string }
+
+function PartnersBlock({ block }: BlockComponentProps) {
+  const title = attrString(block, 'title')
+  const items = (block.attrs.items ?? []) as PartnerItem[]
+
+  if (!items.length) return null
+  return (
+    <section className="wp-react-block wp-react-block--partners">
+      {title && <h2 className="wp-react-block__title" dangerouslySetInnerHTML={{ __html: title }} />}
+      <ul className="partners-grid">
+        {items.map((item, i) => (
+          <li key={i} className="partner-card">
+            {item.name && <h3 className="partner-card__name" dangerouslySetInnerHTML={{ __html: item.name }} />}
+            {item.description && <p className="partner-card__description">{item.description}</p>}
+            {item.url && (
+              <SmartLink className="partner-card__link" href={item.url} target="_blank">
+                Plus d'infos →
+              </SmartLink>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
 const defaultBlockMap: BlockMap = {
   'core/heading': HeadingBlock,
   'core/paragraph': ParagraphBlock,
   'core/image': ImageBlock,
   'core/button': ButtonBlock,
   'core/buttons': ButtonsBlock,
+  'core/list': ListBlock,
+  'core/list-item': ListBlock,
+  'core/quote': QuoteBlock,
+  'core/pullquote': QuoteBlock,
+  'core/separator': SeparatorBlock,
   'woocommerce/product-collection': ProductsBlock,
   'woocommerce/handpicked-products': ProductsBlock,
   'woocommerce/products-by-category': ProductsBlock,
@@ -705,6 +797,7 @@ const defaultBlockMap: BlockMap = {
   'magicieuse/slider': SliderBlock,
   'magicieuse/video-embed': VideoEmbedBlock,
   'magicieuse/steps': StepsBlock,
+  'magicieuse/partners': PartnersBlock,
 }
 
 export default function BlockRenderer({ block, blockMap = defaultBlockMap }: Props) {

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import useSWR from 'swr'
 import { addToCart } from '../../shared/api/woocommerce'
+import { getProductBrands } from '../../shared/api/wordpress'
 import { useCart } from '../cart/useCart'
 import { useProduct } from './useProduct'
 import ProductImage from '../../shared/components/ProductImage/ProductImage'
@@ -16,6 +18,10 @@ const slugCart = import.meta.env.VITE_SLUG_CART || 'panier'
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>()
   const { status, product, error } = useProduct(slug)
+  const { data: brands = [] } = useSWR(
+    slug ? ['product-brands', slug] : null,
+    ([, s]: [string, string]) => getProductBrands(s),
+  )
   const [addStatus, setAddStatus] = useState<AddStatus>('idle')
   const { refresh: refreshCart } = useCart()
 
@@ -76,15 +82,55 @@ export default function ProductPage() {
               </div>
             )}
             <h1>{product.name}</h1>
+            {brands.length > 0 && (
+              <dl className="product-page__brands">
+                {brands.map((role) => (
+                  <>
+                    <dt key={`role-${role.id}`}>{role.name}</dt>
+                    <dd key={`people-${role.id}`}>
+                      {role.people.map((p) => p.name).join(', ')}
+                    </dd>
+                  </>
+                ))}
+              </dl>
+            )}
             <div className="product-page__price">
+              {product.on_sale && (
+                <span className="product-page__badge product-page__badge--sale">Promo</span>
+              )}
               <ProductPrice prices={product.prices} />
             </div>
+
             {product.short_description && (
               <div
                 className="product-page__description"
                 dangerouslySetInnerHTML={{ __html: product.short_description }}
               />
             )}
+
+            {(product.formatted_dimensions || product.formatted_weight) && (
+              <dl className="product-page__specs">
+                {product.formatted_dimensions && (
+                  <>
+                    <dt>Format</dt>
+                    <dd>{product.formatted_dimensions}</dd>
+                  </>
+                )}
+                {product.formatted_weight && (
+                  <>
+                    <dt>Poids</dt>
+                    <dd>{product.formatted_weight}</dd>
+                  </>
+                )}
+              </dl>
+            )}
+
+            {product.low_stock_remaining !== null && (
+              <p className="product-page__low-stock">
+                Plus que {product.low_stock_remaining} en stock
+              </p>
+            )}
+
             {product.is_purchasable && product.is_in_stock ? (
               <div className="product-page__actions">
                 <button
@@ -101,7 +147,9 @@ export default function ProductPage() {
                 )}
               </div>
             ) : (
-              <p className="product-page__unavailable">Produit indisponible</p>
+              <p className="product-page__unavailable">
+                {product.stock_availability.text || 'Produit indisponible'}
+              </p>
             )}
           </div>
         </div>
