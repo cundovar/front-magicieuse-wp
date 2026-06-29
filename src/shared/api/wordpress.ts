@@ -128,6 +128,10 @@ export type WpBlock = {
     product?: WooProduct | null
     categories?: WpBlockCategoryData[]
     slides?: WpBlockSlide[] | null
+    priceRange?: { min: number; max: number }
+    title?: string
+    limit?: number
+    themes?: Array<{ id: number; name: string; slug: string }>
   } | null
 }
 
@@ -140,6 +144,23 @@ export type WpBlocksContent = {
     date: string
   }
   blocks: WpBlock[]
+}
+
+export type InstagramItem = {
+  id: string
+  media_id: string
+  media_type: string
+  media_url: string
+  permalink: string
+  caption: string
+  timestamp: string
+  username: string
+  aspect_ratio: number | null
+}
+
+export type InstagramFeed = {
+  configured: boolean
+  items: InstagramItem[]
 }
 
 export function getPages() {
@@ -177,6 +198,22 @@ export function getProductBrands(slug: string) {
   return fetchJson<WpProductBrandRole[]>(
     `/magicieuse/v1/product/${encodeURIComponent(slug)}/brands`,
   )
+}
+
+export function getInstagramFeed({
+  limit = 8,
+  feedId,
+}: { limit?: number; feedId?: string } = {}) {
+  const params = new URLSearchParams({ limit: String(limit) })
+  if (feedId) params.set('feed_id', feedId)
+
+  return fetchJson<InstagramFeed>(`/magicieuse/v1/instagram?${params.toString()}`)
+}
+
+export function getInstagramProxyImageUrl(url: string) {
+  if (!url) return ''
+
+  return `/wp-json/magicieuse/v1/instagram/image?url=${encodeURIComponent(url)}`
 }
 
 /**

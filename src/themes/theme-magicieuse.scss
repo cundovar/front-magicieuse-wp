@@ -59,10 +59,10 @@
   --product-category-border:       1px solid var(--color-border);
   --product-category-padding:      4px 10px;
 
-  --collection-header-background: oklch(23.2% 0.087 297.3);
-  --collection-header-border:     1px solid var(--color-border);
+  --collection-header-background: transparent;
+  --collection-header-border:     none;
   --collection-header-radius:     0;
-  --collection-header-padding:    clamp(22px, 3vw, 38px);
+  --collection-header-padding:    0;
   --collection-page-padding:      clamp(54px, 8vw, 112px) 0;
   --collection-back-color:        var(--color-text);
   --collection-back-hover-color:  var(--color-heading);

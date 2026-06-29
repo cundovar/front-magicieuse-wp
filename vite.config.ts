@@ -13,4 +13,23 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    headers: {
+      // index.html jamais mis en cache — évite les 404 sur chunks périmés après rebuild
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined
+          if (id.includes('lottie'))                                        return 'vendor-lottie'
+          if (id.includes('react-dom') || id.includes('react-router'))     return 'vendor-react'
+          if (id.includes('swr'))                                           return 'vendor-swr'
+          return 'vendor'
+        },
+      },
+    },
+  },
 })

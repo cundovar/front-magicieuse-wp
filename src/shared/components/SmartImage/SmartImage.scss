@@ -1,0 +1,121 @@
+.smart-image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  container-type: inline-size;
+  background:
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--color-surface) 88%, var(--color-primary) 12%) 8%,
+      color-mix(in srgb, var(--color-primary) 20%, var(--color-surface) 80%) 18%,
+      color-mix(in srgb, var(--color-surface) 90%, var(--color-accent) 10%) 33%
+    );
+  background-size: 220% 100%;
+  isolation: isolate;
+  animation: smart-image-shimmer 1.35s ease-in-out infinite;
+}
+
+.smart-image__loader {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+}
+
+.smart-image__picture-mark {
+  position: relative;
+  display: block;
+  width: clamp(28px, min(30cqw, 30cqh), 92px);
+  max-width: 46%;
+  max-height: 46%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 34%, transparent);
+  border-radius: min(18%, 14px);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-surface) 72%, white 28%),
+      color-mix(in srgb, var(--color-primary) 16%, var(--color-surface) 84%)
+    );
+  box-shadow:
+    0 10px 26px color-mix(in srgb, var(--color-primary) 18%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, white 55%, transparent);
+}
+
+.smart-image__picture-sun {
+  position: absolute;
+  top: 18%;
+  right: 18%;
+  width: 18%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent) 72%, white 28%);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--color-accent) 34%, transparent);
+}
+
+.smart-image__picture-mountain {
+  position: absolute;
+  right: 8%;
+  bottom: 12%;
+  width: 72%;
+  height: 42%;
+  background: color-mix(in srgb, var(--color-primary) 64%, var(--color-accent) 36%);
+  clip-path: polygon(0 100%, 48% 8%, 100% 100%);
+  opacity: 0.9;
+}
+
+.smart-image__picture-mountain--back {
+  right: 34%;
+  bottom: 12%;
+  width: 54%;
+  height: 32%;
+  background: color-mix(in srgb, var(--color-text) 28%, var(--color-primary) 72%);
+  opacity: 0.45;
+}
+
+.smart-image__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: inherit;
+  border-radius: inherit;
+  opacity: 0;
+  transform: scale(1.015);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+
+.smart-image--loaded {
+  animation: none;
+}
+
+.smart-image--loaded .smart-image__img {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.smart-image--error .smart-image__picture-mark {
+  border-color: color-mix(in srgb, var(--color-text) 35%, transparent);
+  box-shadow: none;
+}
+
+@keyframes smart-image-shimmer {
+  0% {
+    background-position: 180% 0;
+  }
+
+  100% {
+    background-position: -60% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smart-image,
+  .smart-image__img {
+    animation: none;
+    transition: none;
+  }
+}

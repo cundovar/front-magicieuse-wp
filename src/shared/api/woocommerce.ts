@@ -6,6 +6,12 @@ export type WooImage = {
   id: number
   src: string
   thumbnail: string
+  width?: number
+  height?: number
+  thumbnail_width?: number
+  thumbnail_height?: number
+  thumbnail_srcset?: string
+  thumbnail_sizes?: string
   srcset: string
   sizes: string
   name: string
@@ -124,9 +130,23 @@ function normalizeProduct(product: WooProduct): WooProduct {
   }
 }
 
-export async function getProducts() {
-  const products = await fetchJson<WooProduct[]>('/wc/store/products?per_page=100')
+export type ProductQueryParams = {
+  category?: string
+  minPrice?: number
+  maxPrice?: number
+  orderby?: 'date' | 'price' | 'popularity'
+  order?: 'asc' | 'desc'
+}
 
+export async function getProducts(params?: ProductQueryParams) {
+  const qs = new URLSearchParams({ per_page: '100' })
+  if (params?.category) qs.set('category', params.category)
+  if (params?.minPrice != null) qs.set('min_price', String(params.minPrice))
+  if (params?.maxPrice != null) qs.set('max_price', String(params.maxPrice))
+  if (params?.orderby) qs.set('orderby', params.orderby)
+  if (params?.order) qs.set('order', params.order)
+
+  const products = await fetchJson<WooProduct[]>(`/wc/store/products?${qs.toString()}`)
   return products.map(normalizeProduct)
 }
 

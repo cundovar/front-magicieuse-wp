@@ -1,0 +1,85 @@
+.bottom-nav {
+  display: none; // desktop: hidden
+
+  @media (max-width: 920px) {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    height: var(--bottom-nav-height, 60px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--header-background, #fff);
+    backdrop-filter: var(--header-backdrop-filter, none);
+    -webkit-backdrop-filter: var(--header-backdrop-filter, none);
+    border-top: 1px solid var(--header-border, var(--color-border, #e7e2ea));
+    box-sizing: content-box;
+  }
+}
+
+.bottom-nav__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--color-text, #625c69);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 6px 4px;
+  transition: color 0.15s;
+  -webkit-tap-highlight-color: transparent;
+
+  svg {
+    transition: color 0.15s, transform 0.15s;
+    flex-shrink: 0;
+  }
+
+  &:hover,
+  &.is-active {
+    color: var(--color-primary, #7b2cbf);
+
+    svg {
+      transform: translateY(-2px);
+    }
+  }
+
+  &.is-active svg {
+    stroke-width: 2.5;
+  }
+}
+
+.bottom-nav__icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-nav__badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--color-primary, #7b2cbf);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+  pointer-events: none;
+}
+
+// Push page content above the nav on mobile
+@media (max-width: 920px) {
+  body {
+    padding-bottom: calc(var(--bottom-nav-height, 60px) + env(safe-area-inset-bottom, 0px));
+  }
+}

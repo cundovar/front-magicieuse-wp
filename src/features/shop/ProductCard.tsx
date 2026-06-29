@@ -6,6 +6,7 @@ import { useCart } from '../cart/useCart'
 import { decodeHtml } from '../../shared/utils/html'
 import ProductImage from '../../shared/components/ProductImage/ProductImage'
 import ProductPrice from '../../shared/components/ProductPrice/ProductPrice'
+import { Button } from '../../shared/components/Button'
 import './ProductCard.scss'
 
 type Props = {
@@ -74,13 +75,14 @@ export default function ProductCard({ product }: Props) {
             <span className="product-card__badge product-card__badge--out">Épuisé</span>
           )}
           {product.is_purchasable && product.is_in_stock && (
-            <button
-              className="btn-primary product-card__add-btn"
+            <Button
+              className="product-card__add-btn"
+              size="sm"
               onClick={handleAddToCart}
               disabled={addStatus === 'adding'}
             >
               {addLabel}
-            </button>
+            </Button>
           )}
         </div>
       </div>

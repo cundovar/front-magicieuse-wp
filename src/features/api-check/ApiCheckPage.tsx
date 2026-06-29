@@ -6,6 +6,7 @@ import {
   type WooProduct,
 } from '../../shared/api/woocommerce'
 import { getPages, type WordPressPage } from '../../shared/api/wordpress'
+import { LoadingState } from '../../shared/components/LoadingState/LoadingState'
 import './ApiCheckPage.scss'
 
 type ApiStatus = 'idle' | 'loading' | 'success' | 'error'
@@ -49,7 +50,7 @@ export default function ApiCheckPage() {
         </p>
       </header>
 
-      {status === 'loading' && <p>Chargement des donnees...</p>}
+      {status === 'loading' && <LoadingState message="Chargement des donnees..." />}
       {status === 'error' && <p role="alert">Erreur : {error}</p>}
 
       {status === 'success' && (

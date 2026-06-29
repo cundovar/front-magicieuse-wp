@@ -15,6 +15,10 @@ function getStoredCartToken(): string | null {
   return cachedCartToken
 }
 
+export function hasCartToken(): boolean {
+  return !!getStoredCartToken()
+}
+
 function storeCartToken(token: string | null) {
   if (!token) return
 
@@ -35,7 +39,7 @@ export async function fetchJson<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const response = await fetch(`${WP_API_BASE}${path}`, options)
+  const response = await fetch(`${WP_API_BASE}${path}`, { cache: 'default', ...options })
 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.status} ${response.statusText}`)

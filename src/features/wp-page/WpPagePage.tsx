@@ -7,8 +7,10 @@ import {
   type WpContent,
 } from '../../shared/api/wordpress'
 import WpStructuredContent from '../../shared/components/WpBlocks/WpStructuredContent'
+import SmartImage from '../../shared/components/SmartImage/SmartImage'
 import { decodeHtml } from '../../shared/utils/html'
 import { hasRenderableBlocks } from '../../shared/utils/wpBlocks'
+import { LoadingState } from '../../shared/components/LoadingState/LoadingState'
 import './WpPagePage.scss'
 
 type PageData = [WpContent, WpBlocksContent | null]
@@ -44,7 +46,7 @@ export default function WpPagePage() {
 
   return (
     <main className="wp-page">
-      {status === 'loading' && <p>Chargement...</p>}
+      {status === 'loading' && <LoadingState />}
       {status === 'error' && <p role="alert">Erreur : {error?.message}</p>}
       {status === 'not-found' && <p>Page introuvable.</p>}
 
@@ -52,7 +54,7 @@ export default function WpPagePage() {
         <article>
           <header className="wp-page__header">
             {page.featured_image && (
-              <img
+              <SmartImage
                 className="wp-page__featured-image"
                 src={page.featured_image.url}
                 alt={page.featured_image.alt || decodeHtml(page.title)}
@@ -60,6 +62,9 @@ export default function WpPagePage() {
                 height={page.featured_image.height}
                 srcSet={page.featured_image.srcset || undefined}
                 sizes={page.featured_image.sizes || undefined}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
               />
             )}
             <h1 className="wp-page__title">{decodeHtml(page.title)}</h1>

@@ -1,13 +1,20 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import useSWR from 'swr'
+import { Minus, Plus } from 'lucide-react'
 import { addToCart } from '../../shared/api/woocommerce'
-import { getProductBrands } from '../../shared/api/wordpress'
+import { getProductBrands, getPageBlocks } from '../../shared/api/wordpress'
 import { useCart } from '../cart/useCart'
 import { useProduct } from './useProduct'
-import ProductImage from '../../shared/components/ProductImage/ProductImage'
 import ProductPrice from '../../shared/components/ProductPrice/ProductPrice'
+import { LoadingState } from '../../shared/components/LoadingState/LoadingState'
+import { Button, ButtonLink } from '../../shared/components/Button'
+import WpStructuredContent from '../../shared/components/WpBlocks/WpStructuredContent'
+import { hasRenderableBlocks } from '../../shared/utils/wpBlocks'
 import './ProductPage.scss'
+import ProductGallery from './ProductGallery'
+import { ProductContext } from './ProductContext'
+import RelatedProducts from './RelatedProducts'
 
 type AddStatus = 'idle' | 'adding' | 'added' | 'error'
 
@@ -23,13 +30,18 @@ export default function ProductPage() {
     ([, s]: [string, string]) => getProductBrands(s),
   )
   const [addStatus, setAddStatus] = useState<AddStatus>('idle')
+  const [quantity, setQuantity] = useState(1)
   const { refresh: refreshCart } = useCart()
+  const { data: pageBlocks } = useSWR(
+    'page-blocks-template-produit',
+    () => getPageBlocks('template-produit'),
+  )
 
   async function handleAddToCart() {
     if (!product) return
     setAddStatus('adding')
     try {
-      await addToCart(product.id)
+      await addToCart(product.id, quantity)
       setAddStatus('added')
       refreshCart()
       setTimeout(() => setAddStatus('idle'), 2000)
@@ -49,19 +61,20 @@ export default function ProductPage() {
           : product?.add_to_cart.text ?? 'Ajouter au panier'
 
   return (
+    <ProductContext.Provider value={product ?? null}>
     <main className="product-page">
       <Link to={`/${slugShop}/`} className="product-page__back">
         ← Boutique
       </Link>
 
-      {status === 'loading' && <p>Chargement du produit...</p>}
+      {status === 'loading' && <LoadingState message="Chargement du produit..." />}
       {status === 'error' && <p role="alert">Erreur : {error}</p>}
       {status === 'not-found' && <p>Produit introuvable.</p>}
 
       {status === 'success' && product && (
         <div className="product-page__layout">
           <div className="product-page__gallery">
-            <ProductImage
+            <ProductGallery
               images={product.images}
               name={product.name}
               className="product-page__image"
@@ -81,7 +94,7 @@ export default function ProductPage() {
                 ))}
               </div>
             )}
-            <h1>{product.name}</h1>
+            <h2>{product.name}</h2>
             {brands.length > 0 && (
               <dl className="product-page__brands">
                 {brands.map((role) => (
@@ -132,19 +145,51 @@ export default function ProductPage() {
             )}
 
             {product.is_purchasable && product.is_in_stock ? (
-              <div className="product-page__actions">
-                <button
-                  className="btn-primary"
-                  onClick={handleAddToCart}
-                  disabled={addStatus === 'adding'}
-                >
-                  {addLabel}
-                </button>
-                {addStatus === 'added' && (
-                  <Link to={`/${slugCart}/`} className="product-page__cart-link">
-                    Voir le panier →
-                  </Link>
-                )}
+              <div className="product-page__purchase">
+                <div className="product-page__quantity" aria-label="Quantité">
+                  <button
+                    type="button"
+                    className="product-page__quantity-btn"
+                    onClick={() => setQuantity((current) => Math.max(1, current - 1))}
+                    aria-label="Diminuer la quantité"
+                  >
+                    <Minus size={16} aria-hidden="true" />
+                  </button>
+                  <input
+                    type="number"
+                    min={1}
+                    step={1}
+                    value={quantity}
+                    onChange={(event) => {
+                      const next = Number.parseInt(event.target.value, 10)
+                      setQuantity(Number.isFinite(next) && next > 0 ? next : 1)
+                    }}
+                    className="product-page__quantity-input"
+                    inputMode="numeric"
+                    aria-label="Quantité"
+                  />
+                  <button
+                    type="button"
+                    className="product-page__quantity-btn"
+                    onClick={() => setQuantity((current) => current + 1)}
+                    aria-label="Augmenter la quantité"
+                  >
+                    <Plus size={16} aria-hidden="true" />
+                  </button>
+                </div>
+                <div className="product-page__actions">
+                  <Button
+                    onClick={handleAddToCart}
+                    disabled={addStatus === 'adding'}
+                  >
+                    {addLabel}
+                  </Button>
+                  {addStatus === 'added' && (
+                    <ButtonLink to={`/${slugCart}/`} variant="link" className="product-page__cart-link">
+                      Voir le panier →
+                    </ButtonLink>
+                  )}
+                </div>
               </div>
             ) : (
               <p className="product-page__unavailable">
@@ -154,6 +199,15 @@ export default function ProductPage() {
           </div>
         </div>
       )}
+
+      {pageBlocks && hasRenderableBlocks(pageBlocks.blocks) && (
+        <WpStructuredContent blocks={pageBlocks.blocks} />
+      )}
+
+      {status === 'success' && product && (
+        <RelatedProducts />
+      )}
     </main>
+    </ProductContext.Provider>
   )
 }

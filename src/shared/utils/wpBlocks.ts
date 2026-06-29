@@ -6,6 +6,9 @@ const DEFAULT_RENDERABLE_BLOCKS = new Set([
   'core/image',
   'core/button',
   'core/buttons',
+  'core/columns',
+  'core/column',
+  'core/group',
   'woocommerce/product-collection',
   'woocommerce/handpicked-products',
   'woocommerce/products-by-category',
@@ -18,8 +21,10 @@ const DEFAULT_RENDERABLE_BLOCKS = new Set([
   'magicieuse/gallery',
   'magicieuse/testimonials',
   'magicieuse/category-grid',
+  'magicieuse/css-grid',
   'magicieuse/product-highlight',
   'magicieuse/newsletter',
+  'magicieuse/instagram-feed',
   'magicieuse/accordion',
   'magicieuse/tabs',
   'magicieuse/slider',
@@ -29,6 +34,7 @@ const DEFAULT_RENDERABLE_BLOCKS = new Set([
   'core/list',
   'core/quote',
   'core/separator',
+  'core/details',
 ])
 
 export function hasRenderableBlocks(

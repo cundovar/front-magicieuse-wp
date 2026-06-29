@@ -12,9 +12,13 @@
   --color-sky:       oklch(73% 0.12 225);
   --color-danger:    oklch(58% 0.18 28);
   --color-success:   oklch(58% 0.14 150);
+  --background-watermark-color: oklch(48% 0.17 305);
+  --background-watermark-opacity: 0.07;
+  --background-watermark-opacity-strong: 0.07;
+  --background-watermark-opacity-deep: 0.025;
 
-  --font-display: 'Baloo 2', 'Nunito', 'Avenir Next', system-ui, sans-serif;
-  --font-body:    'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-mono:    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace;
 
   --theme-shadow: 0 18px 50px oklch(32% 0.04 318 / 0.14);
@@ -24,26 +28,31 @@
   --button-shadow:      0 12px 24px oklch(57% 0.18 348 / 0.24);
   --button-font-weight: 900;
 
-  --header-background:       color-mix(in oklch, var(--color-surface), transparent 8%);
-  --header-backdrop-filter:  blur(16px);
-  --header-height:           76px;
+  --header-background:       oklch(100% 0.003 95 / 0.92);
+  --header-backdrop-filter:  blur(18px);
+  --header-height:           72px;
   --header-logo-font-family: var(--font-display);
-  --header-logo-font-weight: 800;
+  --header-logo-font-weight: 900;
   --header-link-radius:      999px;
   --header-link-background:  var(--color-surface);
-  --header-link-border:      1px solid var(--color-border);
-  --header-link-padding:     10px 15px;
+  --header-link-border:      2px solid var(--color-border);
+  --header-link-padding:     8px 16px;
   --header-submenu-radius:   18px;
   --header-submenu-shadow:   var(--theme-shadow);
 
-  --product-list-gap:              18px;
-  --product-card-background:       var(--color-surface);
-  --product-card-radius:           var(--theme-radius);
-  --product-card-shadow:           var(--theme-shadow);
-  --product-card-hover-shadow:     0 22px 60px oklch(32% 0.04 318 / 0.2);
-  --product-card-image-background: color-mix(in oklch, var(--color-sun), white 55%);
-  --product-card-image-radius:     18px;
-  --product-card-padding:          18px;
+  --product-list-gap:              20px;
+  --product-card-background:       transparent;
+  --product-card-border:           none;
+  --product-card-radius:           0;
+  --product-card-shadow:           none;
+  --product-card-hover-shadow:     none;
+  --product-card-image-background: var(--color-surface);
+  --product-card-image-radius:     6px 14px 14px 6px;
+  --product-card-padding:          16px 4px 0;
+  --product-card-desc-font-size:   13px;
+  --product-card-footer-gap:       10px;
+  --product-card-add-btn-font-size: 13px;
+  --product-card-add-btn-padding:  9px 16px;
 
   --product-page-gap:              clamp(28px, 5vw, 64px);
   --product-page-image-radius:     28px;
@@ -53,21 +62,29 @@
   --product-category-border:       none;
   --product-category-padding:      5px 10px;
 
-  --collection-header-background: color-mix(in oklch, var(--color-sun), white 65%);
-  --collection-header-border:     1px solid color-mix(in oklch, var(--color-border), var(--color-sun) 30%);
-  --collection-header-radius:     42px 28px 58px 26px;
-  --collection-header-padding:    clamp(20px, 4vw, 44px);
-  --collection-page-padding:      clamp(28px, 6vw, 72px) 0;
-  --collection-header-grid:       minmax(180px, 320px) minmax(0, 1fr);
-  --collection-header-gap:        clamp(22px, 5vw, 52px);
-  --collection-title-font-size:   clamp(2.4rem, 7vw, 5.8rem);
-  --collection-title-line-height: 0.96;
-  --collection-description-font-size: clamp(1rem, 1.7vw, 1.18rem);
-  --collection-count-background:  color-mix(in oklch, var(--color-secondary), white 78%);
+  --collection-header-background: transparent;
+  --collection-header-border:     none;
+  --collection-header-radius:     0;
+  --collection-header-padding:    clamp(28px, 4vw, 48px) 0;
+  --collection-page-padding:      72px 0 64px;
+  --collection-back-margin-bottom: 34px;
+  --collection-header-grid:       240px minmax(0, 1fr);
+  --collection-header-gap:        clamp(28px, 6vw, 64px);
+  --collection-title-font-size:   clamp(3rem, 7vw, 4.8rem);
+  --collection-title-line-height: 0.88;
+  --collection-description-font-size: clamp(0.97rem, 1.7vw, 1.1rem);
+  --collection-description-line-height: 1.72;
+  --collection-count-background:  oklch(95% 0.012 86);
+  --collection-count-border:      1.5px solid var(--color-border);
   --collection-count-radius:      999px;
-  --collection-count-padding:     6px 12px;
-  --collection-image-radius:      22px;
+  --collection-count-padding:     5px 14px;
+  --collection-count-color:       var(--color-heading);
+  --collection-count-font-size:   0.82rem;
+  --collection-count-font-weight: 800;
+  --collection-image-radius:      50%;
+  --collection-image-aspect-ratio: 1;
   --collection-image-object-fit:  contain;
+  --collection-image-max-width-mobile: 200px;
 
   --cart-item-image-radius:    18px;
   --cart-item-image-background: color-mix(in oklch, var(--color-sun), white 65%);
@@ -77,19 +94,15 @@
   --cart-summary-radius:       var(--theme-radius);
   --cart-summary-shadow:       var(--theme-shadow);
 
-  --footer-background: color-mix(in oklch, var(--color-surface), var(--color-sun) 18%);
+  --footer-background: transparent;
   --footer-border:     var(--color-border);
 
-  --home-page-padding:       clamp(34px, 7vw, 86px) 0;
-  --home-article-background: linear-gradient(
-    135deg,
-    color-mix(in oklch, var(--color-sun), white 48%),
-    color-mix(in oklch, var(--color-sky), white 58%)
-  );
-  --home-article-border:     1px solid color-mix(in oklch, var(--color-border), var(--color-sun) 30%);
-  --home-article-radius:     42px 28px 58px 26px;
-  --home-article-padding:    clamp(22px, 5vw, 56px);
-  --home-article-shadow:     var(--theme-shadow);
+  --home-page-padding:       clamp(44px, 7vw, 86px) 0;
+  --home-article-background: transparent;
+  --home-article-border:     none;
+  --home-article-radius:     0;
+  --home-article-padding:    0;
+  --home-article-shadow:     none;
   --home-title-max-width:    10ch;
   --home-title-font-size:    clamp(3rem, 9vw, 7.4rem);
   --home-title-line-height:  0.96;
@@ -97,15 +110,11 @@
   --home-content-font-size:  clamp(1.05rem, 2vw, 1.34rem);
 
   --wp-page-max-width:          860px;
-  --wp-page-header-background:  linear-gradient(
-    135deg,
-    color-mix(in oklch, var(--color-sun), white 60%),
-    color-mix(in oklch, var(--color-sky), white 68%)
-  );
-  --wp-page-header-padding:        clamp(24px, 4vw, 48px);
-  --wp-page-header-border:         1px solid color-mix(in oklch, var(--color-border), var(--color-sun) 30%);
-  --wp-page-header-radius:         34px 22px 42px 22px;
-  --wp-page-header-shadow:         var(--theme-shadow);
+  --wp-page-header-background:  transparent;
+  --wp-page-header-padding:        0;
+  --wp-page-header-border:         none;
+  --wp-page-header-radius:         0;
+  --wp-page-header-shadow:         none;
   --wp-page-header-margin-bottom:  clamp(32px, 5vw, 56px);
   --wp-page-featured-image-radius: var(--theme-radius);
   --wp-page-featured-image-max-height: clamp(240px, 36vw, 460px);
@@ -120,6 +129,8 @@
   --wp-block-gap:             clamp(28px, 6vw, 72px);
   --wp-block-title-font-size: clamp(1.55rem, 3vw, 2.3rem);
   --wp-block-media-radius:    28px;
+  --wp-block-media-aspect-ratio: 4 / 3;
+  --wp-block-media-object-fit: cover;
   --wp-block-media-shadow:    var(--theme-shadow);
 
   --wp-block-hero-padding:           clamp(28px, 6vw, 72px);
@@ -134,15 +145,23 @@
   --wp-block-cta-background: color-mix(in oklch, var(--color-sun), white 62%);
   --wp-block-cta-shadow:     var(--theme-shadow);
 
-  --wp-block-book-carousel-padding:            clamp(20px, 4vw, 40px);
-  --wp-block-book-carousel-border:             1px solid color-mix(in oklch, var(--color-border), var(--color-sky) 30%);
-  --wp-block-book-carousel-radius:             var(--theme-radius);
-  --wp-block-book-carousel-background:         color-mix(in oklch, var(--color-sky), white 76%);
-  --wp-block-book-carousel-shadow:             var(--theme-shadow);
-  --wp-block-book-carousel-gap:                18px;
-  --wp-block-book-carousel-card-width:         clamp(180px, 23vw, 260px);
+  --wp-block-book-carousel-padding:            clamp(18px, 3vw, 28px) 0;
+  --wp-block-book-carousel-border:             none;
+  --wp-block-book-carousel-radius:             0;
+  --wp-block-book-carousel-background:         transparent;
+  --wp-block-book-carousel-shadow:             none;
+  --wp-block-book-carousel-gap:                24px;
+  --wp-block-book-carousel-card-width:         min(262px, 78vw);
   --wp-block-book-carousel-control-background: var(--color-surface);
-  --wp-block-book-carousel-control-border:     1px solid color-mix(in oklch, var(--color-border), var(--color-sky) 30%);
+  --wp-block-book-carousel-control-border:     1px solid color-mix(in oklch, var(--color-primary), transparent 78%);
+  --wp-block-book-carousel-control-color:      var(--color-heading);
+  --wp-block-book-carousel-track-padding:      10px 4px 24px;
+  --wp-block-carousel-nav-display:             flex;
+  --wp-block-carousel-dots-display:            flex;
+  --wp-block-carousel-dot-background:          color-mix(in oklch, var(--color-primary), white 78%);
+  --wp-block-carousel-dot-active-background:   var(--color-primary);
+  --wp-block-catalog-link-color:               var(--color-primary);
+  --wp-block-catalog-link-decoration:          underline;
 
   --wp-block-image-text-gap:          clamp(24px, 5vw, 56px);
   --wp-block-image-text-grid-desktop: minmax(300px, 480px) minmax(0, 1fr);
@@ -160,9 +179,9 @@
 
   --wp-block-product-highlight-gap:        clamp(24px, 5vw, 56px);
   --wp-block-product-highlight-padding:    clamp(20px, 4vw, 44px);
-  --wp-block-product-highlight-background: color-mix(in oklch, var(--color-leaf), white 78%);
-  --wp-block-product-highlight-border:     1px solid color-mix(in oklch, var(--color-border), var(--color-leaf) 30%);
-  --wp-block-product-highlight-radius:     34px 22px 42px 22px;
+  --wp-block-product-highlight-background: color-mix(in oklch, var(--color-secondary), white 70%);
+  --wp-block-product-highlight-border:     none;
+  --wp-block-product-highlight-radius:     0;
 
   --wp-block-newsletter-padding:    clamp(20px, 4vw, 40px);
   --wp-block-newsletter-background: color-mix(in oklch, var(--color-secondary), white 78%);
@@ -171,15 +190,22 @@
 
   body {
     background:
-      radial-gradient(circle at 8% 8%, oklch(83% 0.12 78 / 0.28), transparent 24rem),
-      radial-gradient(circle at 96% 18%, oklch(78% 0.11 205 / 0.22), transparent 22rem),
+      radial-gradient(ellipse 75% 110% at -8% 55%, oklch(93% 0.06 68 / 0.9), transparent 62%),
+      radial-gradient(ellipse 65% 90% at 108% 45%, oklch(92% 0.05 295 / 0.6), transparent 58%),
+      radial-gradient(ellipse 55% 60% at 50% 100%, oklch(94% 0.03 310 / 0.25), transparent 55%),
       var(--color-background);
+    background-attachment: fixed;
   }
 
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
+    font-weight: 900;
     line-height: 0.96;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 9vw, 7.4rem);
   }
 }
