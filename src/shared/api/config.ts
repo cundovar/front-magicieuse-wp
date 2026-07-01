@@ -1,7 +1,9 @@
 const DEFAULT_API_BASE = '/wp-json'
 
+const SITE_URL = (import.meta.env.VITE_WP_SITE_URL || '').replace(/\/$/, '')
+
 export const WP_API_BASE =
-  import.meta.env.VITE_WP_API_BASE?.replace(/\/$/, '') || DEFAULT_API_BASE
+  SITE_URL + (import.meta.env.VITE_WP_API_BASE?.replace(/\/$/, '') || DEFAULT_API_BASE)
 
 const CART_TOKEN_STORAGE_KEY = 'magicieuse_cart_token'
 

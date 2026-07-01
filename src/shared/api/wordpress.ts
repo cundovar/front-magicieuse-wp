@@ -1,4 +1,4 @@
-import { fetchJson } from './config'
+import { fetchJson, WP_API_BASE } from './config'
 import type { WooProduct } from './woocommerce'
 
 export type WordPressRendered = {
@@ -213,7 +213,7 @@ export function getInstagramFeed({
 export function getInstagramProxyImageUrl(url: string) {
   if (!url) return ''
 
-  return `/wp-json/magicieuse/v1/instagram/image?url=${encodeURIComponent(url)}`
+  return `${WP_API_BASE}/magicieuse/v1/instagram/image?url=${encodeURIComponent(url)}`
 }
 
 /**
