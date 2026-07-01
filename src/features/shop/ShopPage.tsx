@@ -1,4 +1,7 @@
-import { useSearchParams } from 'react-router-dom'
+'use client'
+
+import { Suspense, useEffect, useState } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import useSWR from 'swr'
 import { useProducts } from './useProducts'
 import ProductList from './ProductList'
@@ -8,7 +11,7 @@ import { getPageBlocks } from '../../shared/api/wordpress'
 import type { ProductQueryParams } from '../../shared/api/woocommerce'
 import './ShopPage.scss'
 
-const slugShop = import.meta.env.VITE_SLUG_SHOP || 'boutique'
+const slugShop = process.env.NEXT_PUBLIC_SLUG_SHOP || 'boutique'
 
 function parseFilters(params: URLSearchParams): ProductQueryParams {
   const f: ProductQueryParams = {}
@@ -33,9 +36,24 @@ function filtersToParams(f: ProductQueryParams): URLSearchParams {
   return p
 }
 
+/**
+ * Lit les filtres depuis l'URL et les synchronise dans l'état parent.
+ * Isolé sous <Suspense> pour que `useSearchParams` ne fasse pas basculer
+ * toute la grille en rendu client (la grille reste statique/SEO).
+ */
+function SearchParamsSync({ onChange }: { onChange: (f: ProductQueryParams) => void }) {
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    onChange(parseFilters(new URLSearchParams(searchParams.toString())))
+  }, [searchParams, onChange])
+  return null
+}
+
 export default function ShopPage() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const filters = parseFilters(searchParams)
+  const router = useRouter()
+  const pathname = usePathname()
+  // Filtres initiaux vides => premier rendu = tous les produits (fallback SWR, HTML statique).
+  const [filters, setFilters] = useState<ProductQueryParams>({})
   const hasFilters = Object.keys(filters).length > 0
 
   const { data: pageBlocks } = useSWR(
@@ -50,8 +68,16 @@ export default function ShopPage() {
   const { status, products, error } = useProducts(hasFilters ? filters : undefined)
 
   function handleFiltersChange(f: ProductQueryParams) {
-    setSearchParams(filtersToParams(f), { replace: true })
+    setFilters(f)
+    const qs = filtersToParams(f).toString()
+    router.replace(qs ? `${pathname}?${qs}` : pathname)
   }
+
+  const syncEl = (
+    <Suspense fallback={null}>
+      <SearchParamsSync onChange={setFilters} />
+    </Suspense>
+  )
 
   const productArea = (
     <>
@@ -64,6 +90,7 @@ export default function ShopPage() {
   if (shopFiltersBlock && layout === 'sidebar') {
     return (
       <main className="shop-page shop-page--with-sidebar">
+        {syncEl}
         <header className="shop-page__header">
           <h1>Boutique</h1>
         </header>
@@ -81,6 +108,7 @@ export default function ShopPage() {
 
   return (
     <main className="shop-page">
+      {syncEl}
       <header className="shop-page__header">
         <div className="shop-page__header-row">
           <h1>Boutique</h1>

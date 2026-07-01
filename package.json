@@ -7,38 +7,36 @@
     "node": ">=20.19"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
+    "lint": "next lint"
   },
   "dependencies": {
     "embla-carousel-react": "^8.6.0",
     "lottie-web": "^5.13.0",
     "lucide-react": "^1.22.0",
+    "next": "^16.2.9",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-router-dom": "^7.17.0",
     "swr": "^2.4.1",
     "yet-another-react-lightbox": "^3.32.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/postcss": "^4.3.2",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.1",
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "eslint-plugin-tailwindcss": "^3.18.3",
     "globals": "^17.6.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "sass": "^1.100.0",
+    "sass": "^1.101.0",
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.2",
-    "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "typescript-eslint": "^8.59.2"
   }
 }

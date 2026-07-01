@@ -1,5 +1,8 @@
+'use client'
+
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import useSWR from 'swr'
 import { ChevronDown, ShoppingBag, X } from 'lucide-react'
 import { getMenu } from '../../api/wordpress'
@@ -9,7 +12,7 @@ import { decodeHtml } from '../../utils/html'
 import MenuLink from '../MenuLink/MenuLink'
 import './Header.scss'
 
-const slugCart = import.meta.env.VITE_SLUG_CART || 'panier'
+const slugCart = process.env.NEXT_PUBLIC_SLUG_CART || 'panier'
 const CART_PATHS = new Set([`/${slugCart}/`, '/cart/'])
 
 function Dropdown({ item }: { item: MenuItem }) {
@@ -112,7 +115,7 @@ export default function Header() {
   const touchStartY = useRef(0)
 
   const closeMenu = useCallback(() => setMenuOpen(false), [])
-  const location = useLocation()
+  const pathname = usePathname()
 
   useEffect(() => {
     if (mobileSectionsInitialized.current || tree.length === 0) return
@@ -123,7 +126,7 @@ export default function Header() {
   // Fermer le menu à chaque changement de page
   useEffect(() => {
     closeMenu()
-  }, [location.pathname, closeMenu])
+  }, [pathname, closeMenu])
 
   // Escape key
   useEffect(() => {
@@ -205,9 +208,9 @@ export default function Header() {
       />
 
       <div className="site-header__inner">
-        <NavLink to="/" className="site-header__logo">
+        <Link href="/" className="site-header__logo">
           Magicieuse
-        </NavLink>
+        </Link>
         <button
           className="site-header__toggle"
           type="button"
@@ -229,9 +232,9 @@ export default function Header() {
           }}
         >
           <div className="site-header__mobile-panel-header">
-            <NavLink to="/" className="site-header__mobile-logo">
+            <Link href="/" className="site-header__mobile-logo">
               La Magicieuse<span>.</span>
-            </NavLink>
+            </Link>
             <button
               className="site-header__mobile-close"
               type="button"
@@ -247,23 +250,23 @@ export default function Header() {
           </div>
           <div className="site-header__actions">
             {actionItems.map(renderMenuItem)}
-            <NavLink to={`/${slugCart}/`} className="site-header__cart">
+            <Link href={`/${slugCart}/`} className="site-header__cart">
               <ShoppingBag size={16} aria-hidden="true" />
               Panier
               {itemCount > 0 && (
                 <span className="site-header__cart-count">{itemCount}</span>
               )}
-            </NavLink>
+            </Link>
           </div>
           <div className="site-header__mobile-menu">
             {tree.map(renderMobileMenuItem)}
-            <NavLink to={`/${slugCart}/`} className="site-header__mobile-link site-header__cart">
+            <Link href={`/${slugCart}/`} className="site-header__mobile-link site-header__cart">
               <ShoppingBag size={16} aria-hidden="true" />
               Panier
               {itemCount > 0 && (
                 <span className="site-header__cart-count">{itemCount}</span>
               )}
-            </NavLink>
+            </Link>
           </div>
           <div className="site-header__mobile-footer" aria-hidden="true">
             <span />

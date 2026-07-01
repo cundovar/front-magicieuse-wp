@@ -3,7 +3,7 @@ import { AlertCircle, CheckCircle2, LoaderCircle, Send } from 'lucide-react'
 import { Button } from '../../shared/components/Button'
 import './ContactForm.scss'
 
-const API_BASE = import.meta.env.VITE_WP_BASE_URL || ''
+const API_BASE = process.env.NEXT_PUBLIC_WP_BASE_URL || ''
 
 type Status = 'idle' | 'sending' | 'success' | 'error'
 

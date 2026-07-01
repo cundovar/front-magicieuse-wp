@@ -1,28 +1,36 @@
-import { NavLink } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { Home, ShoppingBag, ShoppingCart, UserRound } from 'lucide-react'
 import { useCart } from '../../../features/cart/useCart'
 import { getWooUrl } from '../../utils/wooUrl'
 import './BottomNav.scss'
 
-const slugShop  = import.meta.env.VITE_SLUG_SHOP  || 'boutique'
-const slugCart  = import.meta.env.VITE_SLUG_CART  || 'panier'
+const slugShop  = process.env.NEXT_PUBLIC_SLUG_SHOP  || 'boutique'
+const slugCart  = process.env.NEXT_PUBLIC_SLUG_CART  || 'panier'
 
 export default function BottomNav() {
   const { itemCount } = useCart()
+  const pathname = usePathname()
+
+  const homeActive = pathname === '/'
+  const shopActive = pathname.startsWith(`/${slugShop}/`)
+  const cartActive = pathname.startsWith(`/${slugCart}/`)
 
   return (
     <nav className="bottom-nav" aria-label="Navigation principale">
-      <NavLink to="/" end className={({ isActive }) => `bottom-nav__item${isActive ? ' is-active' : ''}`}>
+      <Link href="/" className={`bottom-nav__item${homeActive ? ' is-active' : ''}`}>
         <Home size={22} aria-hidden="true" />
         <span>Accueil</span>
-      </NavLink>
+      </Link>
 
-      <NavLink to={`/${slugShop}/`} className={({ isActive }) => `bottom-nav__item${isActive ? ' is-active' : ''}`}>
+      <Link href={`/${slugShop}/`} className={`bottom-nav__item${shopActive ? ' is-active' : ''}`}>
         <ShoppingBag size={22} aria-hidden="true" />
         <span>Boutique</span>
-      </NavLink>
+      </Link>
 
-      <NavLink to={`/${slugCart}/`} className={({ isActive }) => `bottom-nav__item${isActive ? ' is-active' : ''}`}>
+      <Link href={`/${slugCart}/`} className={`bottom-nav__item${cartActive ? ' is-active' : ''}`}>
         <span className="bottom-nav__icon-wrap">
           <ShoppingCart size={22} aria-hidden="true" />
           {itemCount > 0 && (
@@ -32,7 +40,7 @@ export default function BottomNav() {
           )}
         </span>
         <span>Panier</span>
-      </NavLink>
+      </Link>
 
       <a href={getWooUrl('/mon-compte/')} className="bottom-nav__item">
         <UserRound size={22} aria-hidden="true" />

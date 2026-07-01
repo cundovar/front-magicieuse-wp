@@ -1,5 +1,7 @@
+'use client'
+
 import useSWR from 'swr'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'next/navigation'
 import {
   getContent,
   getPageBlocks,

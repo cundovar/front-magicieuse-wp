@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
 
 type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
@@ -21,7 +23,7 @@ function isInternalUrl(url: string): boolean {
 export default function SmartLink({ href, className, children, target, rel, ...props }: Props) {
   if (isInternalUrl(href) && !target) {
     return (
-      <Link className={className} to={href} {...props}>
+      <Link className={className} href={href} {...props}>
         {children}
       </Link>
     )

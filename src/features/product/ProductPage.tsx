@@ -1,5 +1,8 @@
+'use client'
+
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import useSWR from 'swr'
 import { Minus, Plus } from 'lucide-react'
 import { addToCart } from '../../shared/api/woocommerce'
@@ -18,9 +21,9 @@ import RelatedProducts from './RelatedProducts'
 
 type AddStatus = 'idle' | 'adding' | 'added' | 'error'
 
-const slugShop = import.meta.env.VITE_SLUG_SHOP || 'boutique'
-const slugCollection = import.meta.env.VITE_SLUG_COLLECTION || 'collections'
-const slugCart = import.meta.env.VITE_SLUG_CART || 'panier'
+const slugShop = process.env.NEXT_PUBLIC_SLUG_SHOP || 'boutique'
+const slugCollection = process.env.NEXT_PUBLIC_SLUG_COLLECTION || 'collections'
+const slugCart = process.env.NEXT_PUBLIC_SLUG_CART || 'panier'
 
 export default function ProductPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -63,7 +66,7 @@ export default function ProductPage() {
   return (
     <ProductContext.Provider value={product ?? null}>
     <main className="product-page">
-      <Link to={`/${slugShop}/`} className="product-page__back">
+      <Link href={`/${slugShop}/`} className="product-page__back">
         ← Boutique
       </Link>
 
@@ -86,7 +89,7 @@ export default function ProductPage() {
                 {product.categories.map((cat) => (
                   <Link
                     key={cat.id}
-                    to={`/${slugCollection}/${cat.slug}/`}
+                    href={`/${slugCollection}/${cat.slug}/`}
                     className="product-page__category"
                   >
                     {cat.name}

@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react'
 import { SmartLink } from '../SmartLink'
 
@@ -69,7 +71,7 @@ export function ButtonLink({
   return (
     <Link
       className={buttonClassName({ className, variant, size, fullWidth })}
-      to={to}
+      href={to}
       {...props}
     >
       {children}

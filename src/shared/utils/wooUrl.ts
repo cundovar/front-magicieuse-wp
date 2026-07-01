@@ -9,8 +9,8 @@
  * getWooUrl retourne le chemin relatif — le serveur WP/React partage le domaine.
  */
 const WP_SITE_URL =
-  (import.meta.env.VITE_WP_SITE_URL as string | undefined)?.replace(/\/$/, '') ??
-  (import.meta.env.VITE_WP_API_BASE as string | undefined)?.replace(/\/wp-json\/?$/, '') ??
+  (process.env.NEXT_PUBLIC_WP_SITE_URL as string | undefined)?.replace(/\/$/, '') ??
+  (process.env.NEXT_PUBLIC_WP_API_BASE as string | undefined)?.replace(/\/wp-json\/?$/, '') ??
   ''
 
 /**

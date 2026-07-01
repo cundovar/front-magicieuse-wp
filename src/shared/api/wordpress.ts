@@ -274,7 +274,7 @@ export async function getMenu(location: string): Promise<WpMenuItem[]> {
       `/magicieuse/v1/menu/${encodeURIComponent(location)}`,
     )
   } catch (err) {
-    if (import.meta.env.DEV) {
+    if (process.env.NODE_ENV !== 'production') {
       console.warn(`[menu] Impossible de charger l'emplacement "${location}" :`, err)
     }
     return []
