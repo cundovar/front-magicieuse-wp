@@ -9,8 +9,9 @@ import '@/themes/clients/magicieuse-wp.scss'
 import Header from '@/shared/components/Header/Header'
 import Footer from '@/shared/components/Footer/Footer'
 import BottomNav from '@/shared/components/BottomNav/BottomNav'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Providers } from './providers'
-import { SITE_URL, SITE_NAME } from '@/shared/seo'
+import { SITE_URL, SITE_NAME, organizationJsonLd } from '@/shared/seo'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -39,6 +40,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
         <link rel="author" href="/humans.txt" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
       </head>
       <body>
         <Providers>
@@ -47,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
           <BottomNav />
         </Providers>
+        <SpeedInsights />
       </body>
     </html>
   )

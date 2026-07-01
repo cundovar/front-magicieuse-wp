@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getProductBySlug, getProducts } from '@/shared/api/woocommerce'
 import ProductPage from '@/features/product/ProductPage'
-import { SITE_URL, SITE_NAME, metaDescription, decimalPrice } from '@/shared/seo'
+import { SITE_URL, SITE_NAME, metaDescription, decimalPrice, breadcrumbJsonLd } from '@/shared/seo'
 import { decodeHtml } from '@/shared/utils/html'
 import { SwrFallback } from '../../swr-fallback'
 
@@ -43,10 +43,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const product = await getProductBySlug(slug)
   if (!product) notFound()
 
-  const jsonLd = {
+  const name = decodeHtml(product.name)
+
+  const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: decodeHtml(product.name),
+    name,
     description: metaDescription(product.short_description, 5000),
     image: product.images?.map((i) => i.src) ?? [],
     sku: product.sku || undefined,
@@ -61,11 +63,21 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     },
   }
 
+  const breadcrumb = breadcrumbJsonLd([
+    { name: 'Accueil', path: '/' },
+    { name: 'Boutique', path: '/boutique/' },
+    { name, path: `/produit/${slug}/` },
+  ])
+
   return (
     <SwrFallback entries={[[['product', slug], product]]}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
       <ProductPage />
     </SwrFallback>

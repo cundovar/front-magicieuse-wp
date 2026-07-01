@@ -23,3 +23,27 @@ export function decimalPrice(minor: string, minorUnit: number): string {
   if (!Number.isFinite(n)) return '0.00'
   return (n / 10 ** minorUnit).toFixed(minorUnit)
 }
+
+/** JSON-LD Organization (global, injecté dans le layout). */
+export const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: `${SITE_URL}/favicon.svg`,
+  // Ajouter les réseaux ici, ex : sameAs: ['https://instagram.com/...', ...]
+}
+
+/** JSON-LD BreadcrumbList à partir d'une liste { name, path }. */
+export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      item: `${SITE_URL}${it.path}`,
+    })),
+  }
+}

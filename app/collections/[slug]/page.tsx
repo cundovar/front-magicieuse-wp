@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { getCollection } from '@/shared/api/wordpress'
 import { getProductsByCategory, getProductCategories } from '@/shared/api/woocommerce'
 import CollectionPage from '@/features/collection/CollectionPage'
-import { SITE_NAME, metaDescription } from '@/shared/seo'
+import { SITE_NAME, metaDescription, breadcrumbJsonLd } from '@/shared/seo'
 import { decodeHtml } from '@/shared/utils/html'
 import { SwrFallback } from '../../swr-fallback'
 
@@ -35,8 +35,18 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     getProductsByCategory(slug),
   ])
 
+  const breadcrumb = breadcrumbJsonLd([
+    { name: 'Accueil', path: '/' },
+    { name: 'Boutique', path: '/boutique/' },
+    { name: collection ? decodeHtml(collection.name) : 'Collection', path: `/collections/${slug}/` },
+  ])
+
   return (
     <SwrFallback entries={[[['collection', slug], [collection, products]]]}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
       <CollectionPage />
     </SwrFallback>
   )

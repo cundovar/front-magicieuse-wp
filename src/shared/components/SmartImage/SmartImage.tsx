@@ -1,3 +1,6 @@
+'use client'
+
+import Image from 'next/image'
 import { useEffect, useRef, useState, type CSSProperties, type ImgHTMLAttributes } from 'react'
 import './SmartImage.scss'
 
@@ -14,6 +17,8 @@ export default function SmartImage({
   onError,
   loading = 'lazy',
   decoding = 'async',
+  sizes,
+  fetchPriority,
   ...props
 }: Props) {
   const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>('loading')
@@ -29,6 +34,12 @@ export default function SmartImage({
   const width = typeof props.width === 'number' ? props.width : Number(props.width)
   const height = typeof props.height === 'number' ? props.height : Number(props.height)
   const aspectRatio = width > 0 && height > 0 ? `${width} / ${height}` : undefined
+
+  // next/image seulement si les dimensions sont connues (images héro, LCP).
+  // Sinon on garde le <img> natif — comportement inchangé pour galerie/panier/cartes.
+  const src = typeof props.src === 'string' ? props.src : undefined
+  const useNextImage = !!src && width > 0 && height > 0
+  const isPriority = loading === 'eager' || fetchPriority === 'high'
 
   useEffect(() => {
     const timer = window.setTimeout(() => setCanReveal(true), 320)
@@ -54,21 +65,42 @@ export default function SmartImage({
           </span>
         </span>
       )}
-      <img
-        {...props}
-        ref={imgRef}
-        className="smart-image__img"
-        loading={loading}
-        decoding={decoding}
-        onLoad={(event) => {
-          setStatus('loaded')
-          onLoad?.(event)
-        }}
-        onError={(event) => {
-          setStatus('error')
-          onError?.(event)
-        }}
-      />
+      {useNextImage ? (
+        <Image
+          src={src}
+          alt={props.alt ?? ''}
+          fill
+          sizes={sizes ?? '100vw'}
+          priority={isPriority}
+          className="smart-image__img"
+          onLoad={(event) => {
+            setStatus('loaded')
+            onLoad?.(event as unknown as React.SyntheticEvent<HTMLImageElement>)
+          }}
+          onError={(event) => {
+            setStatus('error')
+            onError?.(event as unknown as React.SyntheticEvent<HTMLImageElement>)
+          }}
+        />
+      ) : (
+        <img
+          {...props}
+          ref={imgRef}
+          className="smart-image__img"
+          loading={loading}
+          decoding={decoding}
+          sizes={sizes}
+          fetchPriority={fetchPriority}
+          onLoad={(event) => {
+            setStatus('loaded')
+            onLoad?.(event)
+          }}
+          onError={(event) => {
+            setStatus('error')
+            onError?.(event)
+          }}
+        />
+      )}
     </span>
   )
 }
