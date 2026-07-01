@@ -1,9 +1,25 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getContent, getPageBlocks, getPages } from '@/shared/api/wordpress'
 import WpPagePage from '@/features/wp-page/WpPagePage'
+import { SITE_NAME, metaDescription } from '@/shared/seo'
+import { decodeHtml } from '@/shared/utils/html'
 import { SwrFallback } from '../swr-fallback'
 
 export const revalidate = 3600
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> },
+): Promise<Metadata> {
+  const { slug } = await params
+  const content = await getContent(slug).catch(() => null)
+  if (!content) return {}
+  return {
+    title: `${decodeHtml(content.title)} — ${SITE_NAME}`,
+    description: metaDescription(content.excerpt || content.content),
+    alternates: { canonical: `/${slug}/` },
+  }
+}
 
 // Slugs pris en charge par des routes statiques dédiées → à exclure du catch-all.
 const RESERVED = new Set(

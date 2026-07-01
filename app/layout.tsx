@@ -10,13 +10,24 @@ import Header from '@/shared/components/Header/Header'
 import Footer from '@/shared/components/Footer/Footer'
 import BottomNav from '@/shared/components/BottomNav/BottomNav'
 import { Providers } from './providers'
+import { SITE_URL, SITE_NAME } from '@/shared/seo'
 
 export const metadata: Metadata = {
-  title: 'La Magicieuse — Maison d’édition jeunesse',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — Maison d’édition jeunesse`,
+    // Les pages fournissent déjà leur titre complet « … — La Magicieuse ».
+    template: '%s',
+  },
   description:
     'Albums jeunesse, collections sensibles et univers d’artistes pour les petits lecteurs curieux.',
   authors: [{ name: 'Facundo Varas', url: 'https://github.com/cundovar' }],
   creator: 'Facundo Varas',
+  openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    locale: 'fr_FR',
+  },
 }
 
 // Pose data-theme avant hydratation pour éviter le flash de thème (remplace ThemeLoader).
