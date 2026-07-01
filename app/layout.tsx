@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   title: 'La Magicieuse — Maison d’édition jeunesse',
   description:
     'Albums jeunesse, collections sensibles et univers d’artistes pour les petits lecteurs curieux.',
+  authors: [{ name: 'Facundo Varas', url: 'https://github.com/cundovar' }],
+  creator: 'Facundo Varas',
 }
 
 // Pose data-theme avant hydratation pour éviter le flash de thème (remplace ThemeLoader).
@@ -25,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+        <link rel="author" href="/humans.txt" />
       </head>
       <body>
         <Providers>
