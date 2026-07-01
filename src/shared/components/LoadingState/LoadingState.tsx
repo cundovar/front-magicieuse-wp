@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useRef } from 'react'
 import type { AnimationItem } from 'lottie-web'
 import './LoadingState.scss'
@@ -23,7 +25,7 @@ export function LoadingState({ message = 'Chargement...' }: Props) {
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        path: `${import.meta.env.BASE_URL}lottie/cat-loading.json`,
+        path: `/lottie/cat-loading.json`,
       })
     })
 

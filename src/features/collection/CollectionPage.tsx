@@ -1,4 +1,7 @@
-import { useParams, Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { decodeHtml } from '../../shared/utils/html'
 import { useCollection } from './useCollection'
 import ProductList from '../shop/ProductList'
@@ -6,7 +9,7 @@ import { LoadingState } from '../../shared/components/LoadingState/LoadingState'
 import SmartImage from '../../shared/components/SmartImage/SmartImage'
 import './CollectionPage.scss'
 
-const slugShop = import.meta.env.VITE_SLUG_SHOP || 'boutique'
+const slugShop = process.env.NEXT_PUBLIC_SLUG_SHOP || 'boutique'
 
 export default function CollectionPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -14,7 +17,7 @@ export default function CollectionPage() {
 
   return (
     <main className="collection-page">
-      <Link to={`/${slugShop}/`} className="collection-page__back">
+      <Link href={`/${slugShop}/`} className="collection-page__back">
         ← Boutique
       </Link>
 

@@ -1,3 +1,5 @@
+'use client'
+
 import useSWR from 'swr'
 import { getFront, type WpFrontData } from '../../shared/api/wordpress'
 import WpStructuredContent from '../../shared/components/WpBlocks/WpStructuredContent'

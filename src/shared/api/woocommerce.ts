@@ -1,6 +1,6 @@
 import { fetchJson, fetchJsonMutation, getStoreApiHeaders } from './config'
 
-const slugProduct = import.meta.env.VITE_SLUG_PRODUCT || 'produit'
+const slugProduct = process.env.NEXT_PUBLIC_SLUG_PRODUCT || 'produit'
 
 export type WooImage = {
   id: number

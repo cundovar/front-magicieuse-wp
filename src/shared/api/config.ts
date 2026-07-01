@@ -1,7 +1,14 @@
 const DEFAULT_API_BASE = '/wp-json'
 
+// Base relative côté client : proxifiée same-origin par next.config (cookies panier OK).
+const CLIENT_API_BASE =
+  process.env.NEXT_PUBLIC_WP_API_BASE?.replace(/\/$/, '') || DEFAULT_API_BASE
+
+// Côté serveur (RSC/SSG/ISR), fetch exige une URL absolue → on préfixe l'origine WordPress.
+const SERVER_ORIGIN = (process.env.NEXT_PUBLIC_WP_SITE_URL || '').replace(/\/$/, '')
+
 export const WP_API_BASE =
-  import.meta.env.VITE_WP_API_BASE?.replace(/\/$/, '') || DEFAULT_API_BASE
+  typeof window === 'undefined' ? `${SERVER_ORIGIN}${CLIENT_API_BASE}` : CLIENT_API_BASE
 
 const CART_TOKEN_STORAGE_KEY = 'magicieuse_cart_token'
 
@@ -39,7 +46,11 @@ export async function fetchJson<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const response = await fetch(`${WP_API_BASE}${path}`, { cache: 'default', ...options })
+  // Serveur : force-cache => les lectures participent au SSG/ISR (revalidate défini au niveau route).
+  // Client : cache HTTP standard.
+  const defaultCache: RequestCache =
+    typeof window === 'undefined' ? 'force-cache' : 'default'
+  const response = await fetch(`${WP_API_BASE}${path}`, { cache: defaultCache, ...options })
 
   if (!response.ok) {
     throw new Error(`API request failed: ${response.status} ${response.statusText}`)

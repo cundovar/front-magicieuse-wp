@@ -1,17 +1,20 @@
-import { NavLink, Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import type { WpMenuItem } from '../../api/wordpress'
 import { decodeHtml } from '../../utils/html'
 import { getWooUrl } from '../../utils/wooUrl'
 
 type Props = {
   item: WpMenuItem
-  /** true = NavLink avec classe active (header), false = Link simple (footer) */
+  /** true = lien avec classe active (header), false = lien simple (footer) */
   nav?: boolean
   className?: string
 }
 
 // Chemins geres par WooCommerce : doivent pointer vers le serveur WP,
-// pas vers le routeur React
+// pas vers le routeur Next
 const WC_PATHS = new Set([
   '/checkout/',
   '/my-account/',
@@ -21,6 +24,8 @@ const WC_PATHS = new Set([
 ])
 
 export default function MenuLink({ item, nav = false, className }: Props) {
+  const pathname = usePathname()
+
   if (item.is_external) {
     return (
       <a
@@ -43,15 +48,17 @@ export default function MenuLink({ item, nav = false, className }: Props) {
   }
 
   if (nav) {
+    const isActive = pathname === item.path
+    const navClassName = [className, isActive ? 'active' : ''].filter(Boolean).join(' ')
     return (
-      <NavLink to={item.path} className={className}>
+      <Link href={item.path} className={navClassName} aria-current={isActive ? 'page' : undefined}>
         {decodeHtml(item.title)}
-      </NavLink>
+      </Link>
     )
   }
 
   return (
-    <Link to={item.path} className={className}>
+    <Link href={item.path} className={className}>
       {decodeHtml(item.title)}
     </Link>
   )

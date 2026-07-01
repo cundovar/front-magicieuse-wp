@@ -1,5 +1,7 @@
+'use client'
+
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import useSWR from 'swr'
 import { Minus, Plus, ShoppingBag, X } from 'lucide-react'
 import {
@@ -19,10 +21,10 @@ import './CartPage.scss'
 
 type Status = 'loading' | 'success' | 'error'
 
-const slugShop = import.meta.env.VITE_SLUG_SHOP || 'boutique'
-const slugProduct = import.meta.env.VITE_SLUG_PRODUCT || 'produit'
-const slugCheckout = import.meta.env.VITE_SLUG_CHECKOUT || 'commande'
-const slugCart = import.meta.env.VITE_SLUG_CART || 'panier'
+const slugShop = process.env.NEXT_PUBLIC_SLUG_SHOP || 'boutique'
+const slugProduct = process.env.NEXT_PUBLIC_SLUG_PRODUCT || 'produit'
+const slugCheckout = process.env.NEXT_PUBLIC_SLUG_CHECKOUT || 'commande'
+const slugCart = process.env.NEXT_PUBLIC_SLUG_CART || 'panier'
 
 function fmtPrice(cart: WooCart, amount: string) {
   return formatWooPrice(amount, cart.totals.currency_minor_unit, cart.totals.currency_code)
@@ -123,7 +125,7 @@ export default function CartPage() {
                       />
                     )}
                     <div className="cart-item__info">
-                      <Link to={`/${slugProduct}/${slug}/`} className="cart-item__name">
+                      <Link href={`/${slugProduct}/${slug}/`} className="cart-item__name">
                         {item.name}
                       </Link>
                       <p className="cart-item__unit-price">
@@ -227,7 +229,7 @@ export default function CartPage() {
               </SmartButtonLink>
               <p className="cart-page__mention">Frais de livraison calculés à l'étape suivante</p>
               <p className="cart-page__mention">paiement sécurisé, promis ✶</p>
-              <Link to={`/${slugShop}/`} className="cart-page__continue">
+              <Link href={`/${slugShop}/`} className="cart-page__continue">
                 Continuer les achats
               </Link>
             </aside>

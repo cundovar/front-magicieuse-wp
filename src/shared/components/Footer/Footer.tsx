@@ -1,12 +1,14 @@
+'use client'
+
 import useSWR from 'swr'
-import { NavLink } from 'react-router-dom'
+import Link from 'next/link'
 import { getMenu } from '../../api/wordpress'
 import { buildMenuTree } from '../../utils/menu'
 import MenuLink from '../MenuLink/MenuLink'
 import './Footer.scss'
 
-const slugShop = import.meta.env.VITE_SLUG_SHOP || 'boutique'
-const slugCart = import.meta.env.VITE_SLUG_CART || 'panier'
+const slugShop = process.env.NEXT_PUBLIC_SLUG_SHOP || 'boutique'
+const slugCart = process.env.NEXT_PUBLIC_SLUG_CART || 'panier'
 
 export default function Footer() {
   const { data: menuItems = [] } = useSWR('menu:footer', () => getMenu('footer'))
@@ -18,16 +20,16 @@ export default function Footer() {
       <div className="site-footer__inner">
         <div className="site-footer__top">
           <section className="site-footer__brand" aria-label="Magicieuse">
-            <NavLink to="/" className="site-footer__logo">
+            <Link href="/" className="site-footer__logo">
               Magicieuse
-            </NavLink>
+            </Link>
             <p>
               Albums jeunesse, collections sensibles et univers d'artistes pour les
               petits lecteurs curieux.
             </p>
             <div className="site-footer__actions" aria-label="Acces rapides">
-              <NavLink to={`/${slugShop}/`}>Boutique</NavLink>
-              <NavLink to={`/${slugCart}/`}>Panier</NavLink>
+              <Link href={`/${slugShop}/`}>Boutique</Link>
+              <Link href={`/${slugCart}/`}>Panier</Link>
             </div>
           </section>
 
@@ -57,9 +59,9 @@ export default function Footer() {
             © {currentYear} La Magicieuse — Maison d'edition jeunesse independante
           </p>
           <nav className="site-footer__legal" aria-label="Liens legaux">
-            <NavLink to="/mentions-legales/">Mentions legales</NavLink>
-            <NavLink to="/conditions-generales-de-vente/">CGV</NavLink>
-            <NavLink to="/politique-de-confidentialite/">Confidentialite</NavLink>
+            <Link href="/mentions-legales/">Mentions legales</Link>
+            <Link href="/conditions-generales-de-vente/">CGV</Link>
+            <Link href="/politique-de-confidentialite/">Confidentialite</Link>
           </nav>
         </div>
       </div>

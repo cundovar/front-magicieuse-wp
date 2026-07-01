@@ -1,5 +1,7 @@
+'use client'
+
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { addToCart } from '../../shared/api/woocommerce'
 import type { WooProduct } from '../../shared/api/woocommerce'
 import { useCart } from '../cart/useCart'
@@ -15,7 +17,7 @@ type Props = {
 
 type AddStatus = 'idle' | 'adding' | 'added' | 'error'
 
-const slugProduct = import.meta.env.VITE_SLUG_PRODUCT || 'produit'
+const slugProduct = process.env.NEXT_PUBLIC_SLUG_PRODUCT || 'produit'
 
 export default function ProductCard({ product }: Props) {
   const [addStatus, setAddStatus] = useState<AddStatus>('idle')
@@ -48,7 +50,7 @@ export default function ProductCard({ product }: Props) {
 
   return (
     <article className="product-card">
-      <Link to={productPath} className="product-card__image-link" tabIndex={-1} aria-hidden>
+      <Link href={productPath} className="product-card__image-link" tabIndex={-1} aria-hidden>
         <ProductImage
           images={product.images}
           name={product.name}
@@ -57,7 +59,7 @@ export default function ProductCard({ product }: Props) {
       </Link>
 
       <div className="product-card__body">
-        <Link to={productPath} className="product-card__name-link">
+        <Link href={productPath} className="product-card__name-link">
           <h2 className="product-card__name">{decodeHtml(product.name)}</h2>
         </Link>
 

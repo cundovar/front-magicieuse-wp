@@ -1,5 +1,7 @@
+'use client'
+
 import { useCallback, useEffect, useState, type ComponentType, type CSSProperties } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import useEmblaCarousel from 'embla-carousel-react'
 import Lightbox from 'yet-another-react-lightbox'
 import 'yet-another-react-lightbox/styles.css'
@@ -47,9 +49,9 @@ type Props = {
   blockMap?: BlockMap
 }
 
-const slugCollection = import.meta.env.VITE_SLUG_COLLECTION || 'collections'
-const slugProduct = import.meta.env.VITE_SLUG_PRODUCT || 'produit'
-const slugShop = import.meta.env.VITE_SLUG_SHOP || 'boutique'
+const slugCollection = process.env.NEXT_PUBLIC_SLUG_COLLECTION || 'collections'
+const slugProduct = process.env.NEXT_PUBLIC_SLUG_PRODUCT || 'produit'
+const slugShop = process.env.NEXT_PUBLIC_SLUG_SHOP || 'boutique'
 
 function blockHtml(block: WpBlock) {
   return block.renderedHTML || block.innerHTML || ''
@@ -568,7 +570,7 @@ function BookCarouselBlock({ block }: BlockComponentProps) {
                 return (
                   <li key={product.id} className="wp-react-block__book-slide">
                     <Link
-                      to={`/${slugProduct}/${product.slug}/`}
+                      href={`/${slugProduct}/${product.slug}/`}
                       className="wp-react-block__book-card"
                     >
                       <ProductImage
@@ -772,7 +774,7 @@ function CategoryGridBlock({ block }: BlockComponentProps) {
         {categories.map((category) => (
           <Link
             key={category.id}
-            to={`/${slugCollection}/${category.slug}/`}
+            href={`/${slugCollection}/${category.slug}/`}
             className="wp-react-block__category-card"
           >
             <span className="wp-react-block__category-visual">
@@ -943,7 +945,7 @@ function ProductHighlightBlock({ block }: BlockComponentProps) {
       <div className="wp-react-block__featured-visual">
         <div className="wp-react-block__featured-halo" aria-hidden="true" />
         <Link
-          to={`/${slugProduct}/${product.slug}/`}
+          href={`/${slugProduct}/${product.slug}/`}
           className="wp-react-block__featured-cover"
         >
           <ProductImage
