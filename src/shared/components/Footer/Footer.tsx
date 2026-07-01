@@ -57,6 +57,16 @@ export default function Footer() {
         <div className="site-footer__bottom">
           <p className="site-footer__copy">
             © {currentYear} La Magicieuse — Maison d'edition jeunesse independante
+            <br />
+            Site développé par{' '}
+            <a
+              href="https://github.com/cundovar"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="site-footer__credit"
+            >
+              Facundo Varas
+            </a>
           </p>
           <nav className="site-footer__legal" aria-label="Liens legaux">
             <Link href="/mentions-legales/">Mentions legales</Link>
