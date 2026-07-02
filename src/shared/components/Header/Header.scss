@@ -246,6 +246,10 @@
 }
 
 @media (max-width: 920px) {
+  .site-header {
+    z-index: 320;
+  }
+
   .site-header__inner {
     display: flex;
     position: relative;
@@ -264,7 +268,7 @@
     display: block;
     position: fixed;
     inset: 0;
-    z-index: 200;
+    z-index: 330;
     background: color-mix(in oklch, var(--color-heading), transparent 72%);
     backdrop-filter: blur(8px);
     animation: overlay-in 0.22s ease;
@@ -275,16 +279,16 @@
     to   { opacity: 1 }
   }
 
-  // Langette désactivée : le menu s'ouvre depuis le burger du header.
+  // Langette latérale : ouvre le menu sans devoir revenir en haut de page.
   .site-header__langette {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     position: fixed;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 201;
+    z-index: 331;
     width: 18px;
     height: 52px;
     padding: 0;
@@ -315,7 +319,7 @@
   .site-header__nav {
     position: fixed;
     inset: 0;
-    z-index: 202;
+    z-index: 332;
     width: 100vw;
     height: 100dvh;
     display: flex;
