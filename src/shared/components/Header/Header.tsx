@@ -209,7 +209,7 @@ export default function Header() {
 
       <div className="site-header__inner">
         <Link href="/" className="site-header__logo">
-          Magicieuse
+          La Magicieuse
         </Link>
         <button
           className="site-header__toggle"
