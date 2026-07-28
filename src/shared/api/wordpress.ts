@@ -230,9 +230,10 @@ export function getPageContent(slug: string) {
  * Endpoint generique : cherche une page puis un article WordPress.
  * Rend le contenu via apply_filters('the_content') cote PHP.
  */
-export function getContent(slug: string) {
+export function getContent(slug: string, options: RequestInit = {}) {
   return fetchJson<WpContent>(
     `/magicieuse/v1/content/${encodeURIComponent(slug)}`,
+    options,
   )
 }
 
@@ -258,9 +259,10 @@ export function getFrontPageBlocks() {
   return fetchJson<WpBlocksContent>('/magicieuse/v1/front-page-blocks')
 }
 
-export function getPageBlocks(slug: string) {
+export function getPageBlocks(slug: string, options: RequestInit = {}) {
   return fetchJson<WpBlocksContent>(
     `/magicieuse/v1/page/${encodeURIComponent(slug)}/blocks`,
+    options,
   )
 }
 

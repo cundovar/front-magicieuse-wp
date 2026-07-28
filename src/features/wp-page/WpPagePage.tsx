@@ -31,7 +31,10 @@ export default function WpPagePage() {
   const { data, error, isLoading } = useSWR<PageData>(
     slug ? ['wp-page', slug] : null,
     ([, s]: [string, string]) =>
-      Promise.all([getContent(s), getPageBlocks(s).catch(() => null)]),
+      Promise.all([
+        getContent(s, { cache: 'no-store' }),
+        getPageBlocks(s, { cache: 'no-store' }).catch(() => null),
+      ]),
   )
 
   const status = isLoading
