@@ -7,7 +7,7 @@ import { SwrFallback } from '../swr-fallback'
 
 const slugShop = process.env.NEXT_PUBLIC_SLUG_SHOP || 'boutique'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: `Boutique — ${SITE_NAME}`,

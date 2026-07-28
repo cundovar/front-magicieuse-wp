@@ -6,7 +6,7 @@ import { SITE_NAME, metaDescription, breadcrumbJsonLd } from '@/shared/seo'
 import { decodeHtml } from '@/shared/utils/html'
 import { SwrFallback } from '../../swr-fallback'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export async function generateStaticParams() {
   const categories = await getProductCategories()

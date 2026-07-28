@@ -14,7 +14,7 @@ const RESERVED = new Set(
   ],
 )
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, categories, pages] = await Promise.all([
