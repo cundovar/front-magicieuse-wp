@@ -16,7 +16,11 @@ function buildKey(filters?: ProductQueryParams): string {
 
 export function useProducts(filters?: ProductQueryParams) {
   const key = buildKey(filters)
-  const { data, error, isLoading } = useSWR<WooProduct[]>(key, () => getProducts(filters))
+  const { data, error, isLoading } = useSWR<WooProduct[]>(
+    key,
+    () => getProducts(filters),
+    { revalidateOnMount: true },
+  )
 
   const status: Status = isLoading ? 'loading' : error ? 'error' : 'success'
 

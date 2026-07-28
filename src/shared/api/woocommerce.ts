@@ -146,13 +146,17 @@ export async function getProducts(params?: ProductQueryParams) {
   if (params?.orderby) qs.set('orderby', params.orderby)
   if (params?.order) qs.set('order', params.order)
 
-  const products = await fetchJson<WooProduct[]>(`/wc/store/products?${qs.toString()}`)
+  const products = await fetchJson<WooProduct[]>(
+    `/wc/store/products?${qs.toString()}`,
+    { next: { revalidate: 60 } },
+  )
   return products.map(normalizeProduct)
 }
 
 export async function getProductsByCategory(categorySlug: string) {
   const products = await fetchJson<WooProduct[]>(
     `/wc/store/products?category=${encodeURIComponent(categorySlug)}&per_page=100`,
+    { next: { revalidate: 60 } },
   )
 
   return products.map(normalizeProduct)
@@ -161,6 +165,7 @@ export async function getProductsByCategory(categorySlug: string) {
 export async function getProductBySlug(slug: string) {
   const products = await fetchJson<WooProduct[]>(
     `/wc/store/products?slug=${encodeURIComponent(slug)}`,
+    { next: { revalidate: 60 } },
   )
 
   return products[0] ? normalizeProduct(products[0]) : null
