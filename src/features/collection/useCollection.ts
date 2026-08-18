@@ -10,7 +10,6 @@ export function useCollection(slug: string | undefined) {
     slug ? ['collection', slug] : null,
     ([, s]: [string, string]) =>
       Promise.all([getCollection(s), getProductsByCategory(s)]),
-    { revalidateOnMount: true },
   )
 
   const status: Status = isLoading

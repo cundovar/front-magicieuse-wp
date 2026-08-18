@@ -7,7 +7,6 @@ export function useProduct(slug: string | undefined) {
   const { data, error, isLoading } = useSWR<WooProduct | null>(
     slug ? ['product', slug] : null,
     ([, s]: [string, string]) => getProductBySlug(s),
-    { revalidateOnMount: true },
   )
 
   const status: Status = isLoading

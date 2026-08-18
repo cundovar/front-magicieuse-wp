@@ -19,7 +19,6 @@ export function useProducts(filters?: ProductQueryParams) {
   const { data, error, isLoading } = useSWR<WooProduct[]>(
     key,
     () => getProducts(filters),
-    { revalidateOnMount: true },
   )
 
   const status: Status = isLoading ? 'loading' : error ? 'error' : 'success'
