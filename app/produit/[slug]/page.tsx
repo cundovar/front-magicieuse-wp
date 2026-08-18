@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getProductBySlug, getProducts } from '@/shared/api/woocommerce'
+import { getProductBySlug } from '@/shared/api/woocommerce'
 import ProductPage from '@/features/product/ProductPage'
 import { SITE_URL, SITE_NAME, metaDescription, decimalPrice, breadcrumbJsonLd } from '@/shared/seo'
 import { decodeHtml } from '@/shared/utils/html'
@@ -8,9 +8,9 @@ import { SwrFallback } from '../../swr-fallback'
 
 export const revalidate = 60
 
+// Les fiches sont générées à la demande puis conservées par l'ISR.
 export async function generateStaticParams() {
-  const products = await getProducts()
-  return products.map((p) => ({ slug: p.slug }))
+  return []
 }
 
 export async function generateMetadata(

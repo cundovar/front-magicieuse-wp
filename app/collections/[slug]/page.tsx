@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getCollection } from '@/shared/api/wordpress'
-import { getProductsByCategory, getProductCategories } from '@/shared/api/woocommerce'
+import { getProductsByCategory } from '@/shared/api/woocommerce'
 import CollectionPage from '@/features/collection/CollectionPage'
 import { SITE_NAME, metaDescription, breadcrumbJsonLd } from '@/shared/seo'
 import { decodeHtml } from '@/shared/utils/html'
@@ -8,9 +8,9 @@ import { SwrFallback } from '../../swr-fallback'
 
 export const revalidate = 60
 
+// Les collections sont générées à la demande puis conservées par l'ISR.
 export async function generateStaticParams() {
-  const categories = await getProductCategories()
-  return categories.map((c) => ({ slug: c.slug }))
+  return []
 }
 
 export async function generateMetadata(
