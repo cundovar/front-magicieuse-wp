@@ -4,7 +4,7 @@ import HomePage from '@/features/home/HomePage'
 import { SITE_NAME } from '@/shared/seo'
 import { SwrFallback } from './swr-fallback'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} — Albums & collections jeunesse`,

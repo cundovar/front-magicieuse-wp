@@ -1,4 +1,28 @@
 const DEFAULT_API_BASE = '/wp-json'
+export const WP_CONTENT_REVALIDATE = 300
+export const WOO_REVALIDATE = 60
+
+export const CACHE_TAGS = {
+  front: 'front',
+  menus: 'menus',
+  products: 'products',
+  productCategories: 'product-categories',
+  theme: 'theme',
+  instagram: 'instagram',
+  pages: 'pages',
+  content: (slug: string) => `content:${slug}`,
+  pageBlocks: (slug: string) => `page-blocks:${slug}`,
+  collection: (slug: string) => `collection:${slug}`,
+  product: (slug: string) => `product:${slug}`,
+  menu: (location: string) => `menu:${location}`,
+}
+
+export type FetchJsonOptions = RequestInit & {
+  next?: {
+    revalidate?: number
+    tags?: string[]
+  }
+}
 
 // Base relative côté client : proxifiée same-origin par next.config (cookies panier OK).
 const CLIENT_API_BASE =
@@ -44,7 +68,7 @@ export function getStoreApiHeaders(): HeadersInit {
 
 export async function fetchJson<T>(
   path: string,
-  options: RequestInit = {},
+  options: FetchJsonOptions = {},
 ): Promise<T> {
   // Serveur : force-cache => les lectures participent au SSG/ISR (revalidate défini au niveau route).
   // Client : cache HTTP standard.

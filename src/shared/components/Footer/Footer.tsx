@@ -11,7 +11,11 @@ const slugShop = process.env.NEXT_PUBLIC_SLUG_SHOP || 'boutique'
 const slugCart = process.env.NEXT_PUBLIC_SLUG_CART || 'panier'
 
 export default function Footer() {
-  const { data: menuItems = [] } = useSWR('menu:footer', () => getMenu('footer'))
+  const { data: menuItems = [] } = useSWR('menu:footer', () => getMenu('footer'), {
+    revalidateOnFocus: true,
+    revalidateIfStale: true,
+    dedupingInterval: 30_000,
+  })
   const tree = buildMenuTree(menuItems)
   const currentYear = new Date().getFullYear()
 

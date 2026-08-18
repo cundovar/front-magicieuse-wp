@@ -107,7 +107,11 @@ export default function Header() {
   const [openMobileSections, setOpenMobileSections] = useState<Set<number>>(() => new Set())
   const mobileSectionsInitialized = useRef(false)
   const { itemCount } = useCart()
-  const { data: menuItems = [] } = useSWR('menu:primary', () => getMenu('primary'))
+  const { data: menuItems = [] } = useSWR('menu:primary', () => getMenu('primary'), {
+    revalidateOnFocus: true,
+    revalidateIfStale: true,
+    dedupingInterval: 30_000,
+  })
   const tree = buildMenuTree(menuItems.filter((item) => !CART_PATHS.has(item.path)))
   const mainItems = tree.slice(0, 2)
   const actionItems = tree.slice(2)

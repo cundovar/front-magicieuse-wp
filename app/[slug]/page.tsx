@@ -6,14 +6,13 @@ import { SITE_NAME, metaDescription } from '@/shared/seo'
 import { decodeHtml } from '@/shared/utils/html'
 import { SwrFallback } from '../swr-fallback'
 
-export const dynamic = 'force-dynamic'
-export const fetchCache = 'force-no-store'
+export const revalidate = 300
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },
 ): Promise<Metadata> {
   const { slug } = await params
-  const content = await getContent(slug, { cache: 'no-store' }).catch(() => null)
+  const content = await getContent(slug).catch(() => null)
   if (!content) return {}
   return {
     title: `${decodeHtml(content.title)} — ${SITE_NAME}`,
@@ -43,10 +42,10 @@ export async function generateStaticParams() {
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
-  const content = await getContent(slug, { cache: 'no-store' }).catch(() => null)
+  const content = await getContent(slug).catch(() => null)
   if (!content) notFound() // slug inconnu → vrai 404 (au lieu d'un 500)
 
-  const blocks = await getPageBlocks(slug, { cache: 'no-store' }).catch(() => null)
+  const blocks = await getPageBlocks(slug).catch(() => null)
 
   return (
     <SwrFallback entries={[[['wp-page', slug], [content, blocks]]]}>

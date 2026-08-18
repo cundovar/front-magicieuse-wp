@@ -32,8 +32,8 @@ export default function WpPagePage() {
     slug ? ['wp-page', slug] : null,
     ([, s]: [string, string]) =>
       Promise.all([
-        getContent(s, { cache: 'no-store' }),
-        getPageBlocks(s, { cache: 'no-store' }).catch(() => null),
+        getContent(s),
+        getPageBlocks(s).catch(() => null),
       ]),
   )
 

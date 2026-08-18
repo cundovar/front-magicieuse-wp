@@ -12,7 +12,11 @@ import { applyTheme, applyThemeFromApi, STORAGE_KEY, DEFAULT_THEME } from '@/sha
  * Le data-theme est déjà posé avant hydratation par le script inline du layout (anti-flash).
  */
 export function ThemeSync() {
-  const { data } = useSWR('theme', getTheme)
+  const { data } = useSWR('theme', getTheme, {
+    revalidateOnFocus: true,
+    revalidateIfStale: true,
+    dedupingInterval: 30_000,
+  })
 
   useEffect(() => {
     const cached = localStorage.getItem(STORAGE_KEY) ?? DEFAULT_THEME

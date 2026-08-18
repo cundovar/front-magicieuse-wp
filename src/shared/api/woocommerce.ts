@@ -1,4 +1,4 @@
-import { fetchJson, fetchJsonMutation, getStoreApiHeaders } from './config'
+import { CACHE_TAGS, WOO_REVALIDATE, fetchJson, fetchJsonMutation, getStoreApiHeaders } from './config'
 
 const slugProduct = process.env.NEXT_PUBLIC_SLUG_PRODUCT || 'produit'
 
@@ -148,7 +148,12 @@ export async function getProducts(params?: ProductQueryParams) {
 
   const products = await fetchJson<WooProduct[]>(
     `/wc/store/products?${qs.toString()}`,
-    { next: { revalidate: 60 } },
+    {
+      next: {
+        revalidate: WOO_REVALIDATE,
+        tags: [CACHE_TAGS.products],
+      },
+    },
   )
   return products.map(normalizeProduct)
 }
@@ -156,7 +161,12 @@ export async function getProducts(params?: ProductQueryParams) {
 export async function getProductsByCategory(categorySlug: string) {
   const products = await fetchJson<WooProduct[]>(
     `/wc/store/products?category=${encodeURIComponent(categorySlug)}&per_page=100`,
-    { next: { revalidate: 60 } },
+    {
+      next: {
+        revalidate: WOO_REVALIDATE,
+        tags: [CACHE_TAGS.products, CACHE_TAGS.collection(categorySlug)],
+      },
+    },
   )
 
   return products.map(normalizeProduct)
@@ -165,7 +175,12 @@ export async function getProductsByCategory(categorySlug: string) {
 export async function getProductBySlug(slug: string) {
   const products = await fetchJson<WooProduct[]>(
     `/wc/store/products?slug=${encodeURIComponent(slug)}`,
-    { next: { revalidate: 60 } },
+    {
+      next: {
+        revalidate: WOO_REVALIDATE,
+        tags: [CACHE_TAGS.products, CACHE_TAGS.product(slug)],
+      },
+    },
   )
 
   return products[0] ? normalizeProduct(products[0]) : null
@@ -173,7 +188,12 @@ export async function getProductBySlug(slug: string) {
 
 export async function getProductCategories() {
   try {
-    return await fetchJson<WooCategory[]>('/wc/store/products/categories')
+    return await fetchJson<WooCategory[]>('/wc/store/products/categories', {
+      next: {
+        revalidate: WOO_REVALIDATE,
+        tags: [CACHE_TAGS.productCategories],
+      },
+    })
   } catch {
     const products = await getProducts()
     const categories = new Map<number, WooCategory>()

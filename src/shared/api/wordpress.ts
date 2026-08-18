@@ -1,4 +1,4 @@
-import { fetchJson } from './config'
+import { CACHE_TAGS, WP_CONTENT_REVALIDATE, fetchJson, type FetchJsonOptions } from './config'
 import type { WooProduct } from './woocommerce'
 
 export type WordPressRendered = {
@@ -164,12 +164,20 @@ export type InstagramFeed = {
 }
 
 export function getPages() {
-  return fetchJson<WordPressPage[]>('/wp/v2/pages')
+  return fetchJson<WordPressPage[]>('/wp/v2/pages', {
+    next: { revalidate: WP_CONTENT_REVALIDATE, tags: [CACHE_TAGS.pages] },
+  })
 }
 
 export async function getPageBySlug(slug: string) {
   const pages = await fetchJson<WordPressPage[]>(
     `/wp/v2/pages?slug=${encodeURIComponent(slug)}`,
+    {
+      next: {
+        revalidate: WP_CONTENT_REVALIDATE,
+        tags: [CACHE_TAGS.pages, CACHE_TAGS.content(slug)],
+      },
+    },
   )
 
   return pages[0] ?? null
@@ -191,12 +199,24 @@ export type WpProductBrandRole = {
 export function getCollection(slug: string) {
   return fetchJson<WpCollection>(
     `/magicieuse/v1/collection/${encodeURIComponent(slug)}`,
+    {
+      next: {
+        revalidate: WP_CONTENT_REVALIDATE,
+        tags: [CACHE_TAGS.productCategories, CACHE_TAGS.collection(slug)],
+      },
+    },
   )
 }
 
 export function getProductBrands(slug: string) {
   return fetchJson<WpProductBrandRole[]>(
     `/magicieuse/v1/product/${encodeURIComponent(slug)}/brands`,
+    {
+      next: {
+        revalidate: WP_CONTENT_REVALIDATE,
+        tags: [CACHE_TAGS.products, CACHE_TAGS.product(slug)],
+      },
+    },
   )
 }
 
@@ -207,7 +227,12 @@ export function getInstagramFeed({
   const params = new URLSearchParams({ limit: String(limit) })
   if (feedId) params.set('feed_id', feedId)
 
-  return fetchJson<InstagramFeed>(`/magicieuse/v1/instagram?${params.toString()}`)
+  return fetchJson<InstagramFeed>(`/magicieuse/v1/instagram?${params.toString()}`, {
+    next: {
+      revalidate: WP_CONTENT_REVALIDATE,
+      tags: [CACHE_TAGS.instagram, CACHE_TAGS.front],
+    },
+  })
 }
 
 export function getInstagramProxyImageUrl(url: string) {
@@ -223,6 +248,12 @@ export function getInstagramProxyImageUrl(url: string) {
 export function getPageContent(slug: string) {
   return fetchJson<WpPageContent>(
     `/magicieuse/v1/page/${encodeURIComponent(slug)}`,
+    {
+      next: {
+        revalidate: WP_CONTENT_REVALIDATE,
+        tags: [CACHE_TAGS.pages, CACHE_TAGS.content(slug)],
+      },
+    },
   )
 }
 
@@ -230,10 +261,17 @@ export function getPageContent(slug: string) {
  * Endpoint generique : cherche une page puis un article WordPress.
  * Rend le contenu via apply_filters('the_content') cote PHP.
  */
-export function getContent(slug: string, options: RequestInit = {}) {
+export function getContent(slug: string, options: FetchJsonOptions = {}) {
   return fetchJson<WpContent>(
     `/magicieuse/v1/content/${encodeURIComponent(slug)}`,
-    options,
+    {
+      ...options,
+      next: {
+        ...options.next,
+        revalidate: WP_CONTENT_REVALIDATE,
+        tags: [CACHE_TAGS.pages, CACHE_TAGS.content(slug), ...(options.next?.tags ?? [])],
+      },
+    },
   )
 }
 
@@ -244,36 +282,72 @@ export type WpFrontData = {
 }
 
 export function getFront() {
-  return fetchJson<WpFrontData>('/magicieuse/v1/front')
+  return fetchJson<WpFrontData>('/magicieuse/v1/front', {
+    next: {
+      revalidate: WP_CONTENT_REVALIDATE,
+      tags: [CACHE_TAGS.front, CACHE_TAGS.products, CACHE_TAGS.productCategories],
+    },
+  })
 }
 
 export function getTheme() {
-  return fetchJson<{ theme: string }>('/magicieuse/v1/theme')
+  return fetchJson<{ theme: string }>('/magicieuse/v1/theme', {
+    next: {
+      revalidate: WP_CONTENT_REVALIDATE,
+      tags: [CACHE_TAGS.theme, CACHE_TAGS.front],
+    },
+  })
 }
 
 export function getFrontPage() {
-  return fetchJson<WpContent>('/magicieuse/v1/front-page')
+  return fetchJson<WpContent>('/magicieuse/v1/front-page', {
+    next: { revalidate: WP_CONTENT_REVALIDATE, tags: [CACHE_TAGS.front] },
+  })
 }
 
 export function getFrontPageBlocks() {
-  return fetchJson<WpBlocksContent>('/magicieuse/v1/front-page-blocks')
+  return fetchJson<WpBlocksContent>('/magicieuse/v1/front-page-blocks', {
+    next: { revalidate: WP_CONTENT_REVALIDATE, tags: [CACHE_TAGS.front] },
+  })
 }
 
-export function getPageBlocks(slug: string, options: RequestInit = {}) {
+export function getPageBlocks(slug: string, options: FetchJsonOptions = {}) {
   return fetchJson<WpBlocksContent>(
     `/magicieuse/v1/page/${encodeURIComponent(slug)}/blocks`,
-    options,
+    {
+      ...options,
+      next: {
+        ...options.next,
+        revalidate: WP_CONTENT_REVALIDATE,
+        tags: [
+          CACHE_TAGS.pages,
+          CACHE_TAGS.content(slug),
+          CACHE_TAGS.pageBlocks(slug),
+          CACHE_TAGS.products,
+          CACHE_TAGS.productCategories,
+          ...(options.next?.tags ?? []),
+        ],
+      },
+    },
   )
 }
 
 export function getMedia() {
-  return fetchJson<WordPressMedia[]>('/wp/v2/media')
+  return fetchJson<WordPressMedia[]>('/wp/v2/media', {
+    next: { revalidate: WP_CONTENT_REVALIDATE, tags: [CACHE_TAGS.pages] },
+  })
 }
 
 export async function getMenu(location: string): Promise<WpMenuItem[]> {
   try {
     return await fetchJson<WpMenuItem[]>(
       `/magicieuse/v1/menu/${encodeURIComponent(location)}`,
+      {
+        next: {
+          revalidate: WP_CONTENT_REVALIDATE,
+          tags: [CACHE_TAGS.menus, CACHE_TAGS.menu(location)],
+        },
+      },
     )
   } catch (err) {
     if (process.env.NODE_ENV !== 'production') {
