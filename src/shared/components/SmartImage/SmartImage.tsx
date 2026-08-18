@@ -22,13 +22,12 @@ export default function SmartImage({
   ...props
 }: Props) {
   const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>('loading')
-  const [canReveal, setCanReveal] = useState(false)
   const imgRef = useRef<HTMLImageElement | null>(null)
   const classes = [
     'smart-image',
     className,
     wrapperClassName,
-    status === 'loaded' && canReveal ? 'smart-image--loaded' : '',
+    status === 'loaded' ? 'smart-image--loaded' : '',
     status === 'error' ? 'smart-image--error' : '',
   ].filter(Boolean).join(' ')
   const width = typeof props.width === 'number' ? props.width : Number(props.width)
@@ -40,11 +39,6 @@ export default function SmartImage({
   const src = typeof props.src === 'string' ? props.src : undefined
   const useNextImage = !!src && width > 0 && height > 0
   const isPriority = loading === 'eager' || fetchPriority === 'high'
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setCanReveal(true), 320)
-    return () => window.clearTimeout(timer)
-  }, [])
 
   // Si l'image est déjà en cache navigateur, onLoad se déclenche avant que React
   // attache son handler. On vérifie img.complete au montage pour rattraper ce cas.
