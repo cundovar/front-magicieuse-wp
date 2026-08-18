@@ -6,7 +6,7 @@ import { SITE_NAME, metaDescription } from '@/shared/seo'
 import { decodeHtml } from '@/shared/utils/html'
 import { SwrFallback } from '../swr-fallback'
 
-export const revalidate = 300
+export const revalidate = 60
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> },

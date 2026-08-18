@@ -1,5 +1,5 @@
 const DEFAULT_API_BASE = '/wp-json'
-export const WP_CONTENT_REVALIDATE = 300
+export const WP_CONTENT_REVALIDATE = 60
 export const WOO_REVALIDATE = 60
 
 export const CACHE_TAGS = {
