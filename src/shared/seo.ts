@@ -2,7 +2,7 @@ import { decodeHtml } from './utils/html'
 
 /** URL absolue du site (surchargée via NEXT_PUBLIC_SITE_URL sur Vercel si besoin). */
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://frontmagi.varascundo.com'
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.la-magicieuse.org'
 ).replace(/\/$/, '')
 
 export const SITE_NAME = 'La Magicieuse'
