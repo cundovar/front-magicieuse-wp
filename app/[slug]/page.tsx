@@ -38,7 +38,7 @@ const REQUIRED_PAGE_SLUGS = [
 ]
 
 export async function generateStaticParams() {
-  const pages = await getPages()
+  const pages = await getPages().catch(() => [])
   const slugs = new Set(pages.map((page) => page.slug))
   REQUIRED_PAGE_SLUGS.forEach((slug) => slugs.add(slug))
 
