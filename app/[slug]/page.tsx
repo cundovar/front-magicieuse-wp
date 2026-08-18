@@ -32,11 +32,19 @@ const RESERVED = new Set(
   ],
 )
 
+const REQUIRED_PAGE_SLUGS = [
+  'conditions-generales-de-vente',
+  'politique-de-confidentialite',
+]
+
 export async function generateStaticParams() {
   const pages = await getPages()
-  return pages
-    .map((p) => ({ slug: p.slug }))
-    .filter((p) => !RESERVED.has(p.slug))
+  const slugs = new Set(pages.map((page) => page.slug))
+  REQUIRED_PAGE_SLUGS.forEach((slug) => slugs.add(slug))
+
+  return Array.from(slugs)
+    .filter((slug) => !RESERVED.has(slug))
+    .map((slug) => ({ slug }))
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

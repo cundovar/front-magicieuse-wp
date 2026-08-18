@@ -165,7 +165,7 @@ export type InstagramFeed = {
 }
 
 export function getPages() {
-  return fetchJson<WordPressPage[]>('/wp/v2/pages?per_page=100', {
+  return fetchJson<WordPressPage[]>('/wp/v2/pages', {
     next: { revalidate: WP_CONTENT_REVALIDATE, tags: [CACHE_TAGS.pages] },
   })
 }
