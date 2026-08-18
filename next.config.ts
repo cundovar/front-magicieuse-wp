@@ -7,6 +7,11 @@ const WP_API_BASE = (process.env.NEXT_PUBLIC_WP_API_BASE || '/wp-json').replace(
 const nextConfig: NextConfig = {
   // URLs canoniques avec slash final (comme WordPress) → évite les 308 sur la nav interne.
   trailingSlash: true,
+  experimental: {
+    staleTimes: {
+      static: 60,
+    },
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'backmagi.varascundo.com' },
