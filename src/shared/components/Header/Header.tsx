@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import useSWR from 'swr'
 import { ChevronDown, ShoppingBag, X } from 'lucide-react'
 import { getMenu } from '../../api/wordpress'
+import { getFallbackMenu } from '../../api/menuFallback'
 import { useCart } from '../../../features/cart/useCart'
 import { buildMenuTree, type MenuItem } from '../../utils/menu'
 import { decodeHtml } from '../../utils/html'
@@ -108,6 +109,7 @@ export default function Header() {
   const mobileSectionsInitialized = useRef(false)
   const { itemCount } = useCart()
   const { data: menuItems = [] } = useSWR('menu:primary', () => getMenu('primary'), {
+    fallbackData: getFallbackMenu('primary'),
     revalidateOnFocus: true,
     revalidateIfStale: true,
     dedupingInterval: 30_000,

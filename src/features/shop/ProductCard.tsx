@@ -50,7 +50,7 @@ export default function ProductCard({ product }: Props) {
 
   return (
     <article className="product-card">
-      <Link href={productPath} className="product-card__image-link" tabIndex={-1} aria-hidden>
+      <Link href={productPath} className="product-card__image-link" tabIndex={-1}>
         <ProductImage
           images={product.images}
           name={product.name}

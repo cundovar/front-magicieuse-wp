@@ -3,6 +3,7 @@
 import useSWR from 'swr'
 import Link from 'next/link'
 import { getMenu } from '../../api/wordpress'
+import { getFallbackMenu } from '../../api/menuFallback'
 import { buildMenuTree } from '../../utils/menu'
 import MenuLink from '../MenuLink/MenuLink'
 import './Footer.scss'
@@ -12,6 +13,7 @@ const slugCart = process.env.NEXT_PUBLIC_SLUG_CART || 'panier'
 
 export default function Footer() {
   const { data: menuItems = [] } = useSWR('menu:footer', () => getMenu('footer'), {
+    fallbackData: getFallbackMenu('footer'),
     revalidateOnFocus: true,
     revalidateIfStale: true,
     dedupingInterval: 30_000,

@@ -1,4 +1,5 @@
 import { CACHE_TAGS, WP_CONTENT_REVALIDATE, fetchJson, type FetchJsonOptions } from './config'
+import { getFallbackMenu } from './menuFallback'
 import type { WooProduct } from './woocommerce'
 
 export type WordPressRendered = {
@@ -164,7 +165,7 @@ export type InstagramFeed = {
 }
 
 export function getPages() {
-  return fetchJson<WordPressPage[]>('/wp/v2/pages', {
+  return fetchJson<WordPressPage[]>('/wp/v2/pages?per_page=100', {
     next: { revalidate: WP_CONTENT_REVALIDATE, tags: [CACHE_TAGS.pages] },
   })
 }
@@ -353,6 +354,6 @@ export async function getMenu(location: string): Promise<WpMenuItem[]> {
     if (process.env.NODE_ENV !== 'production') {
       console.warn(`[menu] Impossible de charger l'emplacement "${location}" :`, err)
     }
-    return []
+    return getFallbackMenu(location)
   }
 }
