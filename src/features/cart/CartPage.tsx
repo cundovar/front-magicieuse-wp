@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
 import Link from 'next/link'
 import useSWR from 'swr'
 import { Minus, Plus, ShoppingBag, X } from 'lucide-react'
@@ -11,6 +11,7 @@ import {
   type WooCart,
 } from '../../shared/api/woocommerce'
 import { getPageBlocks, type WpBlock } from '../../shared/api/wordpress'
+import { getCartToken } from '../../shared/api/config'
 import { formatWooPrice } from '../../shared/utils/price'
 import { getWooUrl } from '../../shared/utils/wooUrl'
 import { LoadingState } from '../../shared/components/LoadingState/LoadingState'
@@ -34,6 +35,15 @@ export default function CartPage() {
   const { data: cart, error, mutate: mutateCart } = useSWR<WooCart>('cart', getCart)
   const { data: pageBlocks } = useSWR(`page-blocks-${slugCart}`, () => getPageBlocks(slugCart))
   const [busyKey, setBusyKey] = useState<string | null>(null)
+
+  function handleCheckoutClick(event: MouseEvent<HTMLAnchorElement>) {
+    const cartToken = getCartToken()
+    if (!cartToken) return
+
+    const url = new URL(event.currentTarget.href)
+    url.searchParams.set('session', cartToken)
+    event.currentTarget.href = url.toString()
+  }
 
   const status: Status = cart !== undefined ? 'success' : error ? 'error' : 'loading'
   const errorMessage = error instanceof Error ? error.message : 'Erreur API'
@@ -224,6 +234,7 @@ export default function CartPage() {
                 className="cart-page__checkout"
                 size="lg"
                 fullWidth
+                onClick={handleCheckoutClick}
               >
                 Passer commande
               </SmartButtonLink>

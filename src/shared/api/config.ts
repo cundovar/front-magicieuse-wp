@@ -38,7 +38,7 @@ const CART_TOKEN_STORAGE_KEY = 'magicieuse_cart_token'
 
 let cachedCartToken: string | null = null
 
-function getStoredCartToken(): string | null {
+export function getCartToken(): string | null {
   if (cachedCartToken) return cachedCartToken
   if (typeof window === 'undefined') return null
 
@@ -47,7 +47,7 @@ function getStoredCartToken(): string | null {
 }
 
 export function hasCartToken(): boolean {
-  return !!getStoredCartToken()
+  return !!getCartToken()
 }
 
 function storeCartToken(token: string | null) {
@@ -61,7 +61,7 @@ function storeCartToken(token: string | null) {
 }
 
 export function getStoreApiHeaders(): HeadersInit {
-  const cartToken = getStoredCartToken()
+  const cartToken = getCartToken()
 
   return cartToken ? { 'Cart-Token': cartToken } : {}
 }
