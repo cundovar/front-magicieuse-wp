@@ -50,8 +50,15 @@ export async function generateStaticParams() {
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
-  const content = await getContent(slug).catch(() => null)
-  if (!content) notFound() // slug inconnu → vrai 404 (au lieu d'un 500)
+  let content
+  try {
+    content = await getContent(slug)
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('API request failed: 404')) {
+      notFound()
+    }
+    throw error
+  }
 
   const blocks = await getPageBlocks(slug).catch(() => null)
 
